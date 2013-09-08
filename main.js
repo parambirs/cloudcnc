@@ -56,22 +56,24 @@ function loadTool(image) {
 	//document.getElementById('temp').appendChild(tool);
 }
 
-function moveTool(cncCtx, tool, xi, yi, x, y) {
+function moveTool(cncCtx, tool, xi, zi, x, z) {
 
 
-	drawGhostTool(cncCtx, tool, {x: xi+1, z: yi});
-	drawTool(cncCtx, tool, {x: xi, z: yi});
+	drawGhostTool(cncCtx, tool, {x: xi+1, z: zi});
+	drawTool(cncCtx, tool, {x: xi, z: zi});
 
-	//cncCtx.drawImage(tool, xi + 1, yi + 1);
+	
 
 	setTimeout(function() {
-		moveTool(cncCtx, tool, xi-1, yi, x, y)
+		moveTool(cncCtx, tool, xi-1, zi, x, z)
 	}, 0);
 
 
 }
 
 window.onload = function(){
+	$('#cnc').get(0).width = $('#canvasDiv').width();
+	$('#cnc').get(0).height = $('#canvasDiv').height();
 	initSimulation();
 }
 

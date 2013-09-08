@@ -28,15 +28,18 @@ function initSimulation() {
 
 function drawTool(ctx, tool, pos){
 
+	// console.log('tool' + pos.x);
 	var posZ = -pos.z - tool.height;
 	ctx.drawImage(tool.toolCanvas, pos.x, posZ);
 }
 
 function drawGhostTool(ctx, tool, pos){
 	var posZ = -pos.z - tool.height;
+	// console.log('ghost' + pos.x);
 	ctx.drawImage(tool.ghostCanvas, pos.x, posZ);
 	
 	// drawing inverted ghost
 	
-	ctx.drawImage(tool.invertedGhostCanvas, pos.x, pos.z);
+	 ctx.drawImage(tool.invertedGhostCanvas, pos.x, pos.z);
 }
+
