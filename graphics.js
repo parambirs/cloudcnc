@@ -2,14 +2,14 @@ function drawBillet(ctx, billet) {
 	
 	//var ctx = canvas.getContext("2d");
 	ctx.fillStyle = billet.color;
-	ctx.fillRect(-billet.length, -billet.diameter / 2, billet.length, billet.diameter);
+	ctx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
 }
 
 
 function initSimulation() {
 	var cnc = document.getElementById("cnc");
 	var cncCtx = cnc.getContext("2d");
-	var billet = {color: "#ff0000", length: 400, diameter: 200};
+	var billet = {color: "#f00", length: 400, diameter: 200};
 	cncCtx.translate(billet.length, cnc.height/2);
 	drawBillet(cncCtx, billet);
 	var tool = initTool('tools/tool.bmp');
