@@ -14,21 +14,46 @@ function initSimulation() {
 
 	var tool = initTool('tools/tool.bmp');
 
-	moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
-	//drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});
-	//drawGhostTool(cncCtx, tool, {x: -50, z: billet.diameter/2})
+	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
+
+	var path = [
+		{x: 0, z: 50},
+		{x: -1, z: 45},
+		{x: -2, z: 40},
+		{x: -3, z: 35},
+		{x: -4, z: 50},
+		{x: -6, z: 50},
+		{x: -8, z: 50},
+		{x: -10, z: 50},
+		{x: -12, z: 50},
+		{x: -13, z: 50}
+
+	];
+
+	moveTool(cncCtx, tool, path, 0);
+
+
+	// drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});
+	// drawGhostTool(cncCtx, tool, {x: 0, z: billet.diameter/2})
 }
 
 
-function moveTool(cncCtx, tool, xi, zi, x, z) {
+// This will move the tool on a pre-defined path set in the PATH array. 
+// fromIndex: the index in the path array from which to start drawing tool.
+function moveTool(cncCtx, tool, path, fromIndex) {
 
 
-	drawGhostTool(cncCtx, tool, {x: xi+1, z: zi});
-	drawTool(cncCtx, tool, {x: xi, z: zi});
+	if(fromIndex >= path.length) return;
+
+	if(fromIndex){
+		drawGhostTool(cncCtx, tool, path[fromIndex-1]);
+	} 
+	
+	drawTool(cncCtx, tool, path[fromIndex]);
 
 	setTimeout(function() {
-		moveTool(cncCtx, tool, xi-1, zi, x, z)
-	}, 20);
+		moveTool(cncCtx, tool, path, fromIndex+1)
+	}, 50);
 
 
 }
