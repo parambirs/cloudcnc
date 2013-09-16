@@ -9,7 +9,7 @@ function initSimulation() {
 	var cnc = document.getElementById("cnc");
 	var cncCtx = cnc.getContext("2d");
 	var billet = {color: "#f00", length: 400, diameter: 200};
-	cncCtx.translate(billet.length, cnc.height/2);
+	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 	drawBillet(cncCtx, billet);
 
 	var tool = initTool('tools/tool.bmp');
@@ -17,24 +17,33 @@ function initSimulation() {
 	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
 
 	var path = [
-		{x: 0, z: 50},
-		{x: -1, z: 45},
-		{x: -2, z: 40},
-		{x: -3, z: 35},
-		{x: -4, z: 50},
-		{x: -6, z: 50},
-		{x: -8, z: 50},
-		{x: -10, z: 50},
-		{x: -12, z: 50},
-		{x: -13, z: 50}
+		{x: 0, z: 96},
+		{x: -1, z: 96},
+		{x: -2, z: 96},
+		{x: -3, z: 96},
+		{x: -4, z: 96},
+		{x: -6, z: 96},
+		{x: -8, z: 96},
+		{x: -10, z: 96},
+		{x: -12, z: 96},
+		{x: -13, z: 96},
+		{x: -15, z: 96},
+		{x: -17, z: 96},
+		{x: -19, z: 96},
+		{x: -21, z: 96},
+		{x: -23, z: 96},
+		{x: -25, z: 96},
+		{x: -27, z: 96},
+		{x: -29, z: 96},
+		{x: -31, z: 96}
 
 	];
 
 	moveTool(cncCtx, tool, path, 0);
 
 
-	// drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});
-	// drawGhostTool(cncCtx, tool, {x: 0, z: billet.diameter/2})
+	 // drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});
+	 // drawGhostTool(cncCtx, tool, {x: 0, z: billet.diameter/2})
 }
 
 
@@ -88,6 +97,8 @@ function initTool(imgPath){
 	toolImg.src = imgPath;
 	
 	var canvas = document.createElement("canvas");
+	canvas.width = toolImg.width;
+	canvas.height = toolImg.height;
 	var ctx = canvas.getContext('2d');
 	
 	// drawing tool image on a temp canvas
@@ -112,6 +123,8 @@ function initTool(imgPath){
 	
 	// Making temp canvas to get rid of transparnt issue
 	var toolCanvas = document.createElement("canvas");
+	toolCanvas.width = toolImg.width;
+	toolCanvas.height = toolImg.height;
 	var toolCanvasCtx = toolCanvas.getContext('2d');
 	toolCanvasCtx.putImageData(toolData, 0, 0);
 

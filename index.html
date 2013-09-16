@@ -5,12 +5,26 @@
 		<link rel='stylesheet' type='text/css' href='main.css'>
 		<script src='main.js'></script>
 		<script src='graphics.js'></script>
+		<script src='syntax.js'></script>
 
 	</head>
 
 	<body>
 		<div id="toolbar"></div>
-		<div id="editor" contenteditable></div>
+		<div id="editor">
+			<div id="lineNumbers">1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10</div>
+			<div id="editorDiv" contenteditable=true >[BILLET</span> X30 Z50<br />
+				G00 X0 Z0<br />
+				X25<br />
+				G01 Z-35<br />
+				X31<br />
+				G00 Z2<br />
+				X15<br />
+				G01 Z-20<br />
+				X31<br />
+				G28 U0 W0<br />
+			</div>
+		</div>
 		<div id="simulator">
 		</div>
 		<div id="footer"></div>
