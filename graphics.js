@@ -16,28 +16,8 @@ function initSimulation() {
 
 	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
 
-	var path = [
-		{x: 0, z: 96},
-		{x: -1, z: 96},
-		{x: -2, z: 96},
-		{x: -3, z: 96},
-		{x: -4, z: 96},
-		{x: -6, z: 96},
-		{x: -8, z: 96},
-		{x: -10, z: 96},
-		{x: -12, z: 96},
-		{x: -13, z: 96},
-		{x: -15, z: 96},
-		{x: -17, z: 96},
-		{x: -19, z: 96},
-		{x: -21, z: 96},
-		{x: -23, z: 96},
-		{x: -25, z: 96},
-		{x: -27, z: 96},
-		{x: -29, z: 96},
-		{x: -31, z: 96}
-
-	];
+	//var path = calculateG00(0, 0, 100, -100);
+	var path = calculateG02(50, 0, 100, -100, 100);
 
 	moveTool(cncCtx, tool, path, 0);
 
@@ -76,19 +56,21 @@ function moveTool(cncCtx, tool, path, fromIndex) {
 
 function drawTool(ctx, tool, pos){
 
-	// console.log('tool' + pos.x);
-	var posZ = -pos.z - tool.height;
-	ctx.drawImage(tool.toolCanvas, pos.x, posZ);
+	//console.log('drawTool[x=' + pos.x + ",z=" + pos.z + "]");
+	// Z is horizontal & X is Vertical
+	var posZ = pos.z;
+	var posX = -pos.x - tool.height;
+	ctx.drawImage(tool.toolCanvas, posZ, posX);
 }
 
 function drawGhostTool(ctx, tool, pos){
-	var posZ = -pos.z - tool.height;
+	var posX = -pos.x - tool.height;
 	// console.log('ghost' + pos.x);
-	ctx.drawImage(tool.ghostCanvas, pos.x, posZ);
+	ctx.drawImage(tool.ghostCanvas, pos.z, posX);
 	
 	// drawing inverted ghost
 	
-	 ctx.drawImage(tool.invertedGhostCanvas, pos.x, pos.z);
+	 ctx.drawImage(tool.invertedGhostCanvas, pos.z, pos.x);
 }
 
 function initTool(imgPath){
