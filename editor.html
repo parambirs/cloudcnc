@@ -56,6 +56,63 @@
 
 				return billet;
 			}
+			
+			function executeCNCCode(func){
+				
+				var pathParams = {}			
+
+
+				switch (func.cncCode){}
+
+					case : "G00"
+						executeG00(pathParams);
+					break;
+
+					case : "G01"
+					executeG01(pathParams);
+					break;
+					
+					case : "G02"
+					executeG00(pathParams);
+					break;
+					
+					case : "G03"
+					executeG00(pathParams);
+					break;
+					
+					case : "G04"
+					executeG00(pathParams);
+					break;
+					
+					case : "G05"
+					executeG00(pathParams);
+					break;
+					
+					default:
+
+				}
+			}
+
+			function hi(test){
+				alert('hi' + test.a);
+			}
+			function getFunction(codeLine){
+				var cncGCodePattern = /G\d+/;
+				var cncMCodePattern = /M\d+/;
+
+				var cncCode = cncGCodePattern.exec(codeLine) || cncMCodePattern.exec(codeLine);
+
+				var func = {};
+				func.cncCode = cncCode;
+
+				var paramsPattern = /[XZRUWF]-?\d+\.?\d+/g;
+
+				while(temp = paramsPattern.exec(codeLine)){
+					 func[temp[0].charAt(0)] = temp[0].substring(1);
+				}
+
+				return func;				
+			}
 
 			function func(){
 				var editor = $('#editor');
@@ -70,7 +127,7 @@
 		<style>
 			#editor{
 				width: 300px;
-				height: 500px;
+				height: 200px;
 				font-size: 14px;
 				font-family:"Courier New", Courier, monospace;    
 				text-transform:uppercase;
@@ -83,6 +140,6 @@
 		<div id="editorDiv">
 			<textarea id="editor"></textarea>
 		</div>
-		<button onclick='alert(func())' >Test</button>
+		<button onclick='hello()' >Test</button>
 	</body>
 </html>
