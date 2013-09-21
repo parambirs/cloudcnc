@@ -16,9 +16,9 @@ function initSimulation() {
 
 	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
 
-	//var path = calculateG00(0, 0, 100, -100);
-	var path = calculateG00(50, 0, 100, -100, 100);
-
+	//var path = calculateG00(0, 0, 50, -20);
+	//moveTool(cncCtx, tool, path, 0);
+	var path = calculateG02(100, 0, 100, -300, 500);
 	moveTool(cncCtx, tool, path, 0);
 
 
@@ -30,8 +30,6 @@ function initSimulation() {
 // This will move the tool on a pre-defined path set in the PATH array. 
 // fromIndex: the index in the path array from which to start drawing tool.
 function moveTool(cncCtx, tool, path, fromIndex) {
-
-
 	if(fromIndex >= path.length) return;
 
 	if(fromIndex){
