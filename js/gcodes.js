@@ -38,7 +38,42 @@ function calculateG00(fromX, fromZ, toX, toZ) {
 }
 
 function calculateG01(fromX, fromZ, toX, toZ) {
-	return calculateG00(fromX, fromZ, toX, toZ);
+	var zInc, xInc;
+    var i, numSteps, DZ, DX;
+    var Z1, Z2, X1, X2;
+
+    Z1 = fromZ; // starting x coordinate = starting z position
+    Z2 = toZ;   // ending x coordinate
+    X1 = fromX; // starting y coordinate = starting x position
+    X2 = toX;   // ending y coordinate
+
+    DZ = Z2 - Z1;
+    DX = X2 - X1;
+
+    // calculate number of steps required
+    numSteps = Math.max(Math.abs(Z1 - Z2), Math.abs(X1 - X2));
+    if(numSteps === 0) return [];
+
+    zInc = DZ / numSteps;
+    xInc = DX / numSteps;
+
+    var zxArray = [];
+
+    // starting point
+    zxArray[0] = {};
+    zxArray[0].z = Z1;
+    zxArray[0].x = X1;
+
+    for(i = 1; i <= numSteps; i += 1) {
+        Z1 += zInc;
+        X1 += xInc;
+        
+        zxArray[i] = {};
+        zxArray[i].z = Z1;
+        zxArray[i].x = X1;
+    }
+
+    return zxArray;
 }
 
 // clockwise arc	

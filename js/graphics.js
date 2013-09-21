@@ -1,6 +1,3 @@
-var cnc;
-var cncCtx;
-var tool;
 
 function drawBillet(ctx, billet) {
 	
