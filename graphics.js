@@ -42,7 +42,7 @@ function moveTool(cncCtx, tool, path, fromIndex) {
 
 	setTimeout(function() {
 		moveTool(cncCtx, tool, path, fromIndex+1)
-	}, 50);
+	}, 5);
 
 
 }

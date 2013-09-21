@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="jquery-2.0.3.min.js"></script>
+		<script>
+
+			// input: array of code lines
+			// returns: Billet object {diameter: value, length: value}
+			// throws: exception if [BILLET, X\d or Z\d not found
+			function getBilletSize(codeArray){
+				
+				var billetLine;
+				var found = false;
+				
+
+				for(line in codeArray){
+					billetLine = codeArray[line];
+					if(billetLine.indexOf('[BILLET') >= 0) {
+						found = true;
+						break;
+					}
+				}
+
+				if(!found){
+					var errMessage = 'Billet size not found';
+					console.log(errMessage);
+					throw  errMessage;
+				}
+
+				var diameterPattern = /\sX\d+\s/;
+				var diameter = diameterPattern.exec(billetLine);
+
+				if(!diameter){
+					var errMessage = 'Billet diameter not found';
+					console.log(errMessage);
+					throw  errMessage;
+				}
+
+				var lengthPattern = /\sZ\d+\s?/;
+				var length = lengthPattern.exec(billetLine);
+
+				if(!length){
+					var errMessage = 'Billet length not found';
+					console.log(errMessage);
+					throw  errMessage;
+				}
+
+				
+
+				var numberPattern = /\d+/;
+
+				diameter = numberPattern.exec(diameter);
+				length = numberPattern.exec(length);
+				
+				var billet = {'diameter':diameter, 'length': length};
+
+				return billet;
+			}
+
+			function func(){
+				var editor = $('#editor');
+				var code = editor.val();
+				
+				var codeArray = code.split('\n');
+				
+				getBilletSize(codeArray);
+
+			}
+		</script>
+		<style>
+			#editor{
+				width: 300px;
+				height: 500px;
+				font-size: 14px;
+				font-family:"Courier New", Courier, monospace;    
+				text-transform:uppercase;
+				line-height: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="editorDiv">
+			<textarea id="editor"></textarea>
+		</div>
+		<button onclick='alert(func())' >Test</button>
+	</body>
+</html>

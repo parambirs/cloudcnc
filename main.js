@@ -22,6 +22,7 @@ function initScreen(){
 		leftPadding: 10,
 		lineNumbersWidth: 30
 	}
+	
 	// Setting toolbar
 	$('#toolbar').css('height',  settings.toolbarHeight + 'px');
 	
