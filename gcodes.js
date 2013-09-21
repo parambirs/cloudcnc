@@ -263,3 +263,95 @@ function calculateG28(fromX, fromZ, intermediateX, intermediateZ, toX, toZ) {
     var secondPath = calculateG00(intermediateX, intermediateZ, toX, toZ);
     return firstPath.concat(secondPath);
 }
+
+function calculateG90(fromX, fromZ, toX, toZ, rVal) {
+    var X1, Z1, X2, Z2, R;
+    
+    X1 = fromX;
+    Z1 = fromZ;
+    X2 = toX;
+    Z2 = toZ;
+    
+    if(!rVal) 
+        R = 0;
+    else
+        R = rVal;
+    
+    //first point
+    toX = X2 + R;
+    toZ = Z1;
+//'    frmMain.StatusBar.Panels(2).Text = "Feed: Maximum"
+    var path1 = calculateG00(fromX, fromZ, toX, toZ);
+    
+    //second point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X2;
+    toZ = Z2;
+ //'   frmMain.StatusBar.Panels(2).Text = "Feed: " & FeedRate
+    var path2 = calculateG01(fromX, fromZ, toX, toZ);
+    
+    //third point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X1;
+    toZ = Z2;
+  // '  frmMain.StatusBar.Panels(2).Text = "Feed: " & FeedRate
+    var path3 = calculateG01(fromX, fromZ, toX, toZ);
+    
+    // final point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X1;
+    toZ = Z1;
+// '    frmMain.StatusBar.Panels(2).Text = "Feed: Maximum"
+    var path4 = calculateG00(fromX, fromZ, toX, toZ);
+
+    return path1.concat(path2).concat(path3).concat(path4);
+}
+
+function calculateG94(fromX, fromZ, toX, toZ, rVal) {
+    var X1, Z1, X2, Z2, R;
+    
+    X1 = fromX;
+    Z1 = fromZ;
+    X2 = toX;
+    Z2 = toZ;
+    
+    if(!rVal)
+        R = 0;
+    else
+        R = rVal;
+    
+    //first point
+    toX = X1;
+    toZ = Z2 + R;
+    // frmMain.StatusBar.Panels(2).Text = "Feed: Maximum"
+    var path1 = calculateG00(fromX, fromZ, toX, toZ);
+    
+    //second point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X2;
+    toZ = Z2;
+ // '   frmMain.StatusBar.Panels(2).Text = "Feed: " & FeedRate
+    var path2 = calculateG01(fromX, fromZ, toX, toZ);
+    
+    //third point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X2;
+    toZ = Z1;
+  // '  frmMain.StatusBar.Panels(2).Text = "Feed: " & FeedRate
+    var path3 = calculateG01(fromX, fromZ, toX, toZ);
+    
+    //final point
+    fromX = toX;
+    fromZ = toZ;
+    toX = X1;
+    toZ = Z1;
+   // ' frmMain.StatusBar.Panels(2).Text = "Feed: Maximum"
+    var path4 = calculateG00(fromX, fromZ, toX, toZ);
+    
+    return path1.concat(path2).concat(path3).concat(path4);    
+}
