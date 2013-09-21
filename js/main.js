@@ -1,4 +1,26 @@
+// Global variables for the application
+var MYAPP = {};
 
+// codeRunner is a worker thread that parses the CNC program and 
+// executes the code
+MYAPP.codeRunner = new Worker('parser.js');
+MYAPP.codeRunner.addEventListener('message', function(e){
+	console.log("codeRunner received message: " + e.data.x + "-" + e.data.z);
+	
+	if(MYAPP.prevPoint) {
+		// drawGhostTool(cncCtx, tool, prevPoint);
+	}
+
+	// drawTool(cncCtx, tool, e.data);
+	cncCtx.fillStyle = "#0f0";
+	cncCtx.fillRect(e.data.z, e.data.x, 20, 20);
+	MYAPP.prevPoint = e.data;
+}, false);
+
+// Event handler for the run button
+function run(){
+	MYAPP.codeRunner.postMessage($('#editorDiv').val());
+}
 
 window.onload = function(){
 	initScreen()
@@ -6,7 +28,6 @@ window.onload = function(){
 	billet();
 	variables();
 }
-
 
 function initScreen(){
 
@@ -38,7 +59,6 @@ function initScreen(){
 	$('#editorDiv').css('width', (settings.editorWidth - settings.leftPadding - settings.lineNumbersWidth) + 'px');
 	$('#editorDiv').css('padding-left', settings.leftPadding + 'px');
 	$('#editorDiv').css('padding-top', settings.topPadding + 'px');
-	$('#editorDiv').change(console.log('hi'));
 
 	// Setting simulator
 	$('#simulator').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight) + 'px');

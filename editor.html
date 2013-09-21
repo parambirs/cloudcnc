@@ -2,127 +2,11 @@
 <html>
 	<head>
 		<script src="jquery-2.0.3.min.js"></script>
+		<script src="gcodes.js"></script>
+		<script src="graphics.js"></script>
 		<script>
 
-			// input: array of code lines
-			// returns: Billet object {diameter: value, length: value}
-			// throws: exception if [BILLET, X\d or Z\d not found
-			function getBilletSize(codeArray){
-				
-				var billetLine;
-				var found = false;
-				
-
-				for(line in codeArray){
-					billetLine = codeArray[line];
-					if(billetLine.indexOf('[BILLET') >= 0) {
-						found = true;
-						break;
-					}
-				}
-
-				if(!found){
-					var errMessage = 'Billet size not found';
-					console.log(errMessage);
-					throw  errMessage;
-				}
-
-				var diameterPattern = /\sX\d+\s/;
-				var diameter = diameterPattern.exec(billetLine);
-
-				if(!diameter){
-					var errMessage = 'Billet diameter not found';
-					console.log(errMessage);
-					throw  errMessage;
-				}
-
-				var lengthPattern = /\sZ\d+\s?/;
-				var length = lengthPattern.exec(billetLine);
-
-				if(!length){
-					var errMessage = 'Billet length not found';
-					console.log(errMessage);
-					throw  errMessage;
-				}
-
-				
-
-				var numberPattern = /\d+/;
-
-				diameter = numberPattern.exec(diameter);
-				length = numberPattern.exec(length);
-				
-				var billet = {'diameter':diameter, 'length': length};
-
-				return billet;
-			}
 			
-			function executeCNCCode(func){
-				
-				var pathParams = {}			
-
-
-				switch (func.cncCode){}
-
-					case : "G00"
-						executeG00(pathParams);
-					break;
-
-					case : "G01"
-					executeG01(pathParams);
-					break;
-					
-					case : "G02"
-					executeG00(pathParams);
-					break;
-					
-					case : "G03"
-					executeG00(pathParams);
-					break;
-					
-					case : "G04"
-					executeG00(pathParams);
-					break;
-					
-					case : "G05"
-					executeG00(pathParams);
-					break;
-					
-					default:
-
-				}
-			}
-
-			function hi(test){
-				alert('hi' + test.a);
-			}
-			function getFunction(codeLine){
-				var cncGCodePattern = /G\d+/;
-				var cncMCodePattern = /M\d+/;
-
-				var cncCode = cncGCodePattern.exec(codeLine) || cncMCodePattern.exec(codeLine);
-
-				var func = {};
-				func.cncCode = cncCode;
-
-				var paramsPattern = /[XZRUWF]-?\d+\.?\d+/g;
-
-				while(temp = paramsPattern.exec(codeLine)){
-					 func[temp[0].charAt(0)] = temp[0].substring(1);
-				}
-
-				return func;				
-			}
-
-			function func(){
-				var editor = $('#editor');
-				var code = editor.val();
-				
-				var codeArray = code.split('\n');
-				
-				getBilletSize(codeArray);
-
-			}
 		</script>
 		<style>
 			#editor{
@@ -140,6 +24,6 @@
 		<div id="editorDiv">
 			<textarea id="editor"></textarea>
 		</div>
-		<button onclick='hello()' >Test</button>
+		<button onclick='start()' >Test</button>
 	</body>
 </html>
