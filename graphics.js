@@ -16,10 +16,10 @@ function initSimulation() {
 
 	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
 
-	//var path = calculateG00(0, 0, 50, -20);
-	//moveTool(cncCtx, tool, path, 0);
-	var path = calculateG02(100, 0, 100, -300, 500);
+	var path = calculateG28(0, 0, 0, 100, 250, 250);
 	moveTool(cncCtx, tool, path, 0);
+	// var path = calculateG02(100, 0, 100, -300, 500);
+	// moveTool(cncCtx, tool, path, 0);
 
 
 	 // drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});

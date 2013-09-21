@@ -246,3 +246,20 @@ function calculateG03(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
     
     return XYArray;
 }
+
+function calculateG28(fromX, fromZ, toX, toZ) {
+    //go to intermediate point
+    // 'check for case U0 W0
+    // If FromX <> ToX Or FromZ <> ToZ Then
+    //     ExecuteG01
+    // End If
+    
+    return calculateG00(fromX, fromZ, toX, toZ);
+}
+
+function calculateG28(fromX, fromZ, intermediateX, intermediateZ, toX, toZ) {
+    //go to intermediate point
+    var firstPath = calculateG00(fromX, fromZ, intermediateX, intermediateZ);
+    var secondPath = calculateG00(intermediateX, intermediateZ, toX, toZ);
+    return firstPath.concat(secondPath);
+}
