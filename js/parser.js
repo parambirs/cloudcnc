@@ -1,57 +1,6 @@
-importScripts("gcodes.js")
+importScripts('gcodes.js');
 
-// input: array of code lines
-// returns: Billet object {diameter: value, length: value}
-// throws: exception if [BILLET, X\d or Z\d not found
-function getBillet(codeArray){
-	
-	var billetLine;
-	var found = false;
-	
 
-	for(line in codeArray){
-		billetLine = codeArray[line];
-		if(billetLine.indexOf('[BILLET') >= 0) {
-			found = true;
-			break;
-		}
-	}
-
-	if(!found){
-		var errMessage = 'Billet size not found';
-		console.log(errMessage);
-		throw  errMessage;
-	}
-
-	var diameterPattern = /\sX\d+\s/;
-	var diameter = diameterPattern.exec(billetLine);
-
-	if(!diameter){
-		var errMessage = 'Billet diameter not found';
-		console.log(errMessage);
-		throw  errMessage;
-	}
-
-	var lengthPattern = /\sZ\d+\s?/;
-	var length = lengthPattern.exec(billetLine);
-
-	if(!length){
-		var errMessage = 'Billet length not found';
-		console.log(errMessage);
-		throw  errMessage;
-	}
-
-	
-
-	var numberPattern = /\d+/;
-
-	diameter = numberPattern.exec(diameter);
-	length = numberPattern.exec(length);
-	
-	var billet = {'diameter':diameter, 'length': length};
-
-	return billet;
-}
 
 function executeStatement(statement, fromPoint){
 
@@ -59,6 +8,10 @@ function executeStatement(statement, fromPoint){
 
 		case "G00":
 			return calculateG00(fromPoint.x, fromPoint.z, statement.X, statement.Z);
+		break;
+
+		case "G01":
+			return calculateG01(fromPoint.x, fromPoint.z, statement.X, statement.Z);
 		break;
 		
 		default:
@@ -68,18 +21,13 @@ function executeStatement(statement, fromPoint){
 
 
 function start(code){
-	console.log("code: " + code);
-	
-	// var editor = $('#editor');
-	// var code = editor.val();				
+			
 	var codeArray = code.split('\n');	
-
-	// var billet = getBillet(codeArray);
 
 	var statement;
 	var pathArray;
 
-	var prevX = 50, prevZ=30, prevR, prevCNCCode;
+	var prevX = 100, prevZ=100, prevR, prevCNCCode;
 	var fromPoint = {};
 
 	for(line in codeArray){
@@ -98,7 +46,9 @@ function start(code){
 		pathArray = executeStatement(statement, fromPoint);
 
 		for(index in pathArray){
+			for(var i =0; i < 1000000; i++){}
 			self.postMessage(pathArray[index]);
+			// callBack(pathArray[index]);
 		}
 
 		prevX = statement.X;
@@ -109,16 +59,14 @@ function start(code){
 }
 
 function getStatement(codeLine){
-	var cncGCodePattern = /G\d+/;
-	var cncMCodePattern = /M\d+/;
-
-	var cncCode = cncGCodePattern.exec(codeLine) || cncMCodePattern.exec(codeLine);
-
 	var statement = {};
- 	
+
+	var cncCodePattern = /[GM]\d+/;
+	var cncCode = cncCodePattern.exec(codeLine);
+	
  	statement.cncCode = cncCode && cncCode[0];
 
-	var paramsPattern = /[XZRUWF]-?\d+\.?\d+/g;
+	var paramsPattern = /[XZRUWF]-?\d+\.?\d*/g;
 
 	while(temp = paramsPattern.exec(codeLine)){
 		 statement[temp[0].charAt(0)] = temp[0].substring(1);

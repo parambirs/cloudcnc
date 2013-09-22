@@ -34,8 +34,14 @@ body {
 
 #editorDiv{
 	float: right;
+	outline: none;
+	border: none;
+	color: #fff;
+	font-size: 14px;
+	font-family:"Courier New", Courier, monospace;    
+	text-transform:uppercase;
+	line-height: 20px;
 	background-color: #444;
-	overflow: auto;
 }
 
 #lineNumbers{

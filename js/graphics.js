@@ -1,20 +1,19 @@
 
-function drawBillet(ctx, billet) {
+var cnc;
+var cncCtx;
+
+function drawBillet(billet) {
 	
-	ctx.fillStyle = billet.color;
-	ctx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
+	cncCtx.fillStyle = billet.color;
+	cncCtx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
 }
 
 function initSimulation() {
 	cnc = document.getElementById("cnc");
 	cncCtx = cnc.getContext("2d");
-	var billet = {color: "#f00", length: 400, diameter: 200};
-	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
-	drawBillet(cncCtx, billet);
-
-	cncCtx.fillStyle = "#0f0";
-	cncCtx.fillRect(100, 100, 20, 20);
-
+	//var billet = {color: "#f00", length: 400, diameter: 200};
+	// cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
+	//drawBillet(cncCtx, billet);
 	tool = initTool('tools/tool.bmp');
 
 	// drawTool(cncCtx, tool, {x: 0, z: 0});
@@ -63,6 +62,7 @@ function drawTool(ctx, tool, pos){
 	// Z is horizontal & X is Vertical
 	var posZ = pos.z;
 	var posX = -pos.x - tool.height;
+
 	ctx.drawImage(tool.toolCanvas, posZ, posX);
 }
 
