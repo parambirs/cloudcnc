@@ -158,8 +158,8 @@ function calculateG02(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
     X = X1;
     Y = Y1;
     XYArray[0] = {};
-    XYArray[0].z = X;
-    XYArray[0].x = Y;
+    XYArray[0].z = parseInt(X);
+    XYArray[0].x = parseInt(Y);
     
     var i = 1;
     
@@ -172,8 +172,8 @@ function calculateG02(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
         Y = Math.abs(R) * Math.sin(angle) + Yc;
         
         XYArray[i] = {};
-        XYArray[i].z = X;
-        XYArray[i].x = Y;
+        XYArray[i].z = parseInt(X);
+        XYArray[i].x = parseInt(Y);
         i = i + 1;
     }
   	
@@ -262,8 +262,8 @@ function calculateG03(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
     X = X1;
     Y = Y1;
     XYArray[0] = {};
-    XYArray[0].z = X;
-    XYArray[0].x = Y;
+    XYArray[0].z = parseInt(X);
+    XYArray[0].x = parseInt(Y);
     
     var i = 1;
     
@@ -274,8 +274,8 @@ function calculateG03(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
         Y = Math.abs(R) * Math.sin(angle) + Yc;
         
         XYArray[i] = {};
-        XYArray[i].z = X;
-        XYArray[i].x = Y;
+        XYArray[i].z = parseInt(X);
+        XYArray[i].x = parseInt(Y);
         i = i + 1;
     }
     
