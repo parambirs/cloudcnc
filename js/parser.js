@@ -1,4 +1,4 @@
-importScripts('gcodes.js');
+// importScripts('gcodes.js');
 
 
 
@@ -14,6 +14,22 @@ function executeStatement(statement, fromPoint){
 			return calculateG01(fromPoint.x, fromPoint.z, statement.X, statement.Z);
 		break;
 		
+		case "G02":
+			return calculateG02(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
+		break;
+
+		case "G03":
+			return calculateG03(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
+		break;
+
+		case "G90":
+			return calculateG90(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
+		break;
+
+		case "G94":
+			return calculateG94(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
+		break;
+
 		default:
 
 	}
@@ -21,18 +37,26 @@ function executeStatement(statement, fromPoint){
 
 
 function start(code){
-			
+	
+	console.log('Starting program');
+
 	var codeArray = code.split('\n');	
+
+	console.log('Number of lines of code: ' + codeArray.length);
 
 	var statement;
 	var pathArray;
 
 	var prevX = 100, prevZ=100, prevR, prevCNCCode;
-	var fromPoint = {};
+
+	var fromPoint = {x: prevX, z: prevZ};
 
 	for(line in codeArray){
 
+		console.log("Statement: " + codeArray[line]);
+
 		statement = getStatement(codeArray[line]);
+
 		
 		//setting default values
 		statement.cncCode = statement.cncCode || prevCNCCode;
@@ -40,15 +64,19 @@ function start(code){
 		statement.Z = statement.Z || prevZ;
 		statement.R = statement.R || prevR;
 
-		fromPoint.x = prevX;
-		fromPoint.z = prevZ;
+		console.log("Statement object: " + statement.toString());
 
 		pathArray = executeStatement(statement, fromPoint);
 
 		for(index in pathArray){
-			for(var i =0; i < 1000000; i++){}
-			self.postMessage(pathArray[index]);
-			// callBack(pathArray[index]);
+			// for(var i =0; i < 1000000; i++){}
+			// self.postMessage(pathArray[index]);
+			callBack(pathArray[index]);
+		}
+
+		if(pathArray) {
+			fromPoint.x = pathArray[pathArray.length - 1].x;
+			fromPoint.z = pathArray[pathArray.length - 1].z;
 		}
 
 		prevX = statement.X;
@@ -72,9 +100,20 @@ function getStatement(codeLine){
 		 statement[temp[0].charAt(0)] = temp[0].substring(1);
 	}
 
+	statement.toString = function() {
+		var prop, str = '';
+		for(prop in this) {
+			if(this.hasOwnProperty(prop) && typeof this.prop !== 'function') {
+				str += prop + ": " + this[prop] + "\n";
+			}
+		}
+
+		return str;
+	}
+
 	return statement;				
 }
 
-self.addEventListener('message', function(e){
-	start(e.data);
-}, false);
+// self.addEventListener('message', function(e){
+// 	start(e.data);
+// }, false);

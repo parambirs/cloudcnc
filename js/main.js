@@ -17,29 +17,30 @@ var MYAPP = {};
 
 // codeRunner is a worker thread that parses the CNC program and 
 // executes the code
-MYAPP.codeRunner = new Worker('js/parser.js');
+// MYAPP.codeRunner = new Worker('js/parser.js');
 
-MYAPP.codeRunner.addEventListener('message', function(e){
-	console.log("codeRunner received message: " + e.data.x + "-" + e.data.z);
+// MYAPP.codeRunner.addEventListener('message', function(e){
+// 	console.log("codeRunner received message: " + e.data.x + "-" + e.data.z);
 	
-	if(MYAPP.prevPoint) {
-		drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
-	}
-
-	drawTool(cncCtx, tool, e.data);
-	MYAPP.prevPoint = e.data;
-}, false);
-
-// Event handler for the run button
-
-// function callBack(data){
 // 	if(MYAPP.prevPoint) {
 // 		drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
 // 	}
 
-// 	drawTool(cncCtx, tool, data);
-// 	MYAPP.prevPoint = data;
-// }
+// 	drawTool(cncCtx, tool, e.data);
+// 	MYAPP.prevPoint = e.data;
+// }, false);
+
+// Event handler for the run button
+
+function callBack(data){
+		console.log("codeRunner received message: " + data.x + "-" + data.z);
+	if(MYAPP.prevPoint) {
+		drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
+	}
+
+	drawTool(cncCtx, tool, data);
+	MYAPP.prevPoint = data;
+}
 
 function run(){
 	
@@ -48,8 +49,8 @@ function run(){
 	cnc.width = cnc.width;
 	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 	drawBillet(billet);
-	// start($('#editorDiv').val().toUpperCase());
-	MYAPP.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
+	start($('#editorDiv').val().toUpperCase());
+	// MYAPP.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
 }
 
 window.onload = function(){

@@ -4,10 +4,10 @@ function calculateG00(fromX, fromZ, toX, toZ) {
 	var i, numSteps;
 	var Z1, Z2, X1, X2;
 
-	Z1 = parseFloat(fromZ);	// starting x coordinate = starting z position
-	Z2 = parseFloat(toZ);	// ending x coordinate
-	X1 = parseFloat(fromX);	// starting y coordinate = starting x position
-	X2 = parseFloat(toX);	// ending y coordinate
+	Z1 = parseInt(fromZ);	// starting x coordinate = starting z position
+	Z2 = parseInt(toZ);	// ending x coordinate
+	X1 = parseInt(fromX);	// starting y coordinate = starting x position
+	X2 = parseInt(toX);	// ending y coordinate
 
 	// calculate number of steps required
 	numSteps = Math.max(Math.abs(Z1 - Z2), Math.abs(X1 - X2));
@@ -42,10 +42,10 @@ function calculateG01(fromX, fromZ, toX, toZ) {
     var i, numSteps, DZ, DX;
     var Z1, Z2, X1, X2;
 
-    Z1 = fromZ; // starting x coordinate = starting z position
-    Z2 = toZ;   // ending x coordinate
-    X1 = fromX; // starting y coordinate = starting x position
-    X2 = toX;   // ending y coordinate
+    Z1 = parseInt(fromZ); // starting x coordinate = starting z position
+    Z2 = parseInt(toZ);   // ending x coordinate
+    X1 = parseInt(fromX); // starting y coordinate = starting x position
+    X2 = parseInt(toX);   // ending y coordinate
 
     DZ = Z2 - Z1;
     DX = X2 - X1;
@@ -65,8 +65,8 @@ function calculateG01(fromX, fromZ, toX, toZ) {
     zxArray[0].x = X1;
 
     for(i = 1; i <= numSteps; i += 1) {
-        Z1 = eval(Z1 + zInc);
-        X1 = eval(X1 + xInc);
+        Z1 = (Z1 + zInc);
+        X1 = (X1 + xInc);
         
         zxArray[i] = {};
         zxArray[i].z = Math.round(Z1);
@@ -83,10 +83,10 @@ function calculateG02(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
     var m, theta, Theta1, Theta2;
     var Xm, Ym, B, L, Xc, Yc, X0, Y0, R, DX, DY;
     
-    X1 = fromZ;  //starting x coordinate = starting z position
-    X2 = toZ;    //end x coordinate
-    Y1 = fromX;  //start y coordinate = starting x position
-    Y2 = toX;    //end y coordinate
+    X1 = parseFloat(fromZ);  //starting x coordinate = starting z position
+    X2 = parseFloat(toZ);  //end x coordinate
+    Y1 = parseFloat(fromX);  //start y coordinate = starting x position
+    Y2 = parseFloat(toX);   //end y coordinate
     
     if(!radius) {
         Xc = X1 + IVal;
@@ -187,10 +187,10 @@ function calculateG03(fromX, fromZ, toX, toZ, radius, IVal, KVal) {
     var m, theta, Theta1, Theta2;
     var Xm, Ym, B, L, Xc, Yc, X0, Y0, R, DX, DY;
     
-    X1 = fromZ;  //starting x coordinate = starting z position
-    X2 = toZ;    //end x coordinate
-    Y1 = fromX;  //start y coordinate = starting x position
-    Y2 = toX;    //end y coordinate
+    X1 = parseFloat(fromZ);  //starting x coordinate = starting z position
+    X2 = parseFloat(toZ);  //end x coordinate
+    Y1 = parseFloat(fromX);  //start y coordinate = starting x position
+    Y2 = parseFloat(toX);   //end y coordinate
     
     if(!radius) {
         Xc = X1 + IVal;
@@ -302,15 +302,15 @@ function calculateG28(fromX, fromZ, intermediateX, intermediateZ, toX, toZ) {
 function calculateG90(fromX, fromZ, toX, toZ, rVal) {
     var X1, Z1, X2, Z2, R;
     
-    X1 = fromX;
-    Z1 = fromZ;
-    X2 = toX;
-    Z2 = toZ;
+    X1 = parseFloat(fromX);
+    Z1 = parseFloat(fromZ);
+    X2 = parseFloat(toX);
+    Z2 = parseFloat(toZ);
     
     if(!rVal) 
         R = 0;
     else
-        R = rVal;
+        R = parseFloat(rVal);
     
     //first point
     toX = X2 + R;
@@ -348,15 +348,15 @@ function calculateG90(fromX, fromZ, toX, toZ, rVal) {
 function calculateG94(fromX, fromZ, toX, toZ, rVal) {
     var X1, Z1, X2, Z2, R;
     
-    X1 = fromX;
-    Z1 = fromZ;
-    X2 = toX;
-    Z2 = toZ;
+    X1 = parseFloat(fromX);
+    Z1 = parseFloat(fromZ);
+    X2 = parseFloat(toX);
+    Z2 = parseFloat(toZ);
     
     if(!rVal)
         R = 0;
     else
-        R = rVal;
+        R = parseFloat(rVal);
     
     //first point
     toX = X1;
