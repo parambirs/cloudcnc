@@ -7,27 +7,14 @@
 		<script src='js/gcodes.js'></script>
 		<script src='js/graphics.js'></script>
 		<script src='js/syntax.js'></script>
-		<script src='js/parser.js'></script>
 		
 		<script>
-			function temp(){
-				var code = "[BILLET X20 Z30";
 
-				 var billetPattern = /\[BILLET\s/i;
-
-				 var result = billetPattern.exec(code.trim());
-
-				 alert(result);
-
-
-				
-				
-			}
 		</script>
 	</head>
 
 	<body>
-		<div id="toolbar"><button onclick="run()">Run</button></div>
+		<div id="toolbar"><button onclick="run()">Run</button><button onclick="stop()">Stop</button></div>
 		<div id="editor">
 			<div id="lineNumbers">1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10</div>
 			<textarea id="editorDiv"></textarea>

@@ -1,4 +1,4 @@
-// importScripts('gcodes.js');
+importScripts('gcodes.js');
 
 
 
@@ -35,6 +35,11 @@ function executeStatement(statement, fromPoint){
 	}
 }
 
+var console = {
+	log: function(){}
+};
+
+
 
 function start(code){
 	
@@ -69,9 +74,9 @@ function start(code){
 		pathArray = executeStatement(statement, fromPoint);
 
 		for(index in pathArray){
-			// for(var i =0; i < 1000000; i++){}
-			// self.postMessage(pathArray[index]);
-			callBack(pathArray[index]);
+			for(var i =0; i < 700000; i++){}
+			self.postMessage(pathArray[index]);
+			// callBack(pathArray[index]);
 		}
 
 		if(pathArray) {
@@ -114,6 +119,6 @@ function getStatement(codeLine){
 	return statement;				
 }
 
-// self.addEventListener('message', function(e){
-// 	start(e.data);
-// }, false);
+self.addEventListener('message', function(e){
+	start(e.data);
+}, false);
