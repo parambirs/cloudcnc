@@ -1,3 +1,7 @@
+$(document).ready(function(){ 
+	$( "#editorDiv").load( "examples/complete.cnc" );
+	initScreen();
+});
 // Global variables for the application
 var MYAPP = {};
 
@@ -23,7 +27,7 @@ function stop(){
 
 function run(){
 	delete MYAPP.prevPoint;
-	
+	initSimulation();
 	MYAPP.codeRunner = new Worker('js/parser.js');
 
 	MYAPP.codeRunner.addEventListener('message', function(e){
@@ -44,13 +48,6 @@ function run(){
 	drawBillet(billet);
 	// start($('#editorDiv').val().toUpperCase());
 	MYAPP.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
-}
-
-window.onload = function(){
-	initScreen()
-	initSimulation();
-	billet();
-	variables();
 }
 
 // input: array of code lines

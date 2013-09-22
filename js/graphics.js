@@ -11,23 +11,7 @@ function drawBillet(billet) {
 function initSimulation() {
 	cnc = document.getElementById("cnc");
 	cncCtx = cnc.getContext("2d");
-	//var billet = {color: "#f00", length: 400, diameter: 200};
-	// cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
-	//drawBillet(cncCtx, billet);
 	tool = initTool('tools/tool.bmp');
-
-	// drawTool(cncCtx, tool, {x: 0, z: 0});
-
-	//moveTool(cncCtx, tool, 0, billet.diameter/2-5, -billet.length, billet.diameter/2-5);
-
-	// var path = calculateG94(60, 0, 100, -200);
-	// moveTool(cncCtx, tool, path, 0);
-	// var path = calculateG02(100, 0, 100, -300, 500);
-	// moveTool(cncCtx, tool, path, 0);
-
-
-	 // drawTool(cncCtx, tool, {x: 0, z: billet.diameter/2});
-	 // drawGhostTool(cncCtx, tool, {x: 0, z: billet.diameter/2})
 }
 
 
