@@ -74,7 +74,7 @@ function start(code){
 		pathArray = executeStatement(statement, fromPoint);
 
 		for(index in pathArray){
-			for(var i =0; i < 700000; i++){}
+			// for(var i =0; i < 700000; i++){}
 			self.postMessage(pathArray[index]);
 			// callBack(pathArray[index]);
 		}
@@ -89,6 +89,8 @@ function start(code){
 		prevR = statement.R;
 		prevCNCCode = statement.cncCode;
 	}
+
+	self.postMessage("The End");
 }
 
 function getStatement(codeLine){

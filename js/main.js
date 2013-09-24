@@ -30,6 +30,9 @@ function run(){
 	initSimulation();
 	MYAPP.codeRunner = new Worker('js/parser.js');
 
+	var codeA = $('#editorDiv').val().toUpperCase().split('\n');
+	var billet = getBillet(codeA);
+	var that = this;
 	MYAPP.codeRunner.addEventListener('message', function(e){
 		// console.log("codeRunner received message: " + e.data.x + "-" + e.data.z);
 		
@@ -37,12 +40,16 @@ function run(){
 			drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
 		}
 
+		if(e.data === "The End"){
+			get3DData(cnc, cncCtx, billet);
+			return;
+		}
+
 		drawTool(cncCtx, tool, e.data);
 		MYAPP.prevPoint = e.data;
 	}, false);
 
-	var codeA = $('#editorDiv').val().toUpperCase().split('\n');
-	var billet = getBillet(codeA);
+	
 	cnc.width = cnc.width;
 	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 	drawBillet(billet);
@@ -98,7 +105,7 @@ function getBillet(codeArray){
 	diameter = numberPattern.exec(diameter);
 	length = numberPattern.exec(length);
 	
-	var billet = {'diameter':diameter[0], 'length': length[0], 'color': '#f00'};
+	var billet = {'diameter':diameter[0], 'length': length[0], 'properties': billetProperties};
 
 	return billet;
 }
@@ -110,7 +117,7 @@ function initScreen(){
 	var windowHeight = window.innerHeight;
 
 	var settings = {
-		toolbarHeight: 30,
+		toolbarHeight: 40,
 		footerHeight: 30,
 		editorWidth: 300,
 		topPadding: 3,

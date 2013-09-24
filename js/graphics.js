@@ -4,7 +4,7 @@ var cncCtx;
 
 function drawBillet(billet) {
 	
-	cncCtx.fillStyle = billet.color;
+	cncCtx.fillStyle = billet.properties.color;
 	cncCtx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
 }
 
