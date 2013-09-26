@@ -8,6 +8,23 @@ body {
 	margin: 0px;
 }
 
+#options{
+	position: absolute;
+	background-color: rgb(185,185,185);
+	width: 300px;
+	right: -300px;
+	padding: 0px 10px;
+	z-index: 300;
+	box-shadow: inset 0px 0px 10px #888888;
+}
+
+#options h1{
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 20px;
+	border-bottom: 1px solid rgb(214,214,214);
+	line-height: 30px;
+}
+
 #menuButtons{
 	float: right;
 	height: 100%;
@@ -20,8 +37,8 @@ body {
 	text-align: center;
 	color: #FFFFFA;
 	height: 80%;
-	padding-top: 6%;
-	font-family: 'Source Sans Pro', sans-serif;
+	padding-top: 4%;
+	font-family: sans-serif;
 }
 
 .toolbar_button:hover{

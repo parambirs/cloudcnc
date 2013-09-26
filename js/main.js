@@ -1,7 +1,16 @@
 $(document).ready(function(){ 
-	$( "#editorDiv").load( "examples/complete.cnc" );
+	$( "#editorDiv").load( "examples/simple.cnc" );
 	initScreen();
 });
+
+function test(){
+	if ($('#options').right < 0){
+		$('#options').animate({"right": -300}, "fast");	
+	} else {
+		$('#options').animate({"right": 0}, "fast");
+	}
+	
+}
 // Global variables for the application
 var MYAPP = {};
 
@@ -41,7 +50,7 @@ function run(){
 		}
 
 		if(e.data === "The End"){
-			get3DData(cnc, cncCtx, billet);
+			// get3DData(cnc, cncCtx, billet);
 			return;
 		}
 
@@ -149,6 +158,10 @@ function initScreen(){
 	$('#lineNumbers').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight - settings.topPadding) + 'px');
 	$('#lineNumbers').css('width' , (settings.lineNumbersWidth - 4) + 'px');
 	$('#lineNumbers').css('padding-top', settings.topPadding + 'px');
+
+	// Options overlay
+	$('#options').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight) + 'px');
+
 
 	// Setting CNC
 	var cnc = document.createElement('canvas');

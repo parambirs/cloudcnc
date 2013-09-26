@@ -22,6 +22,10 @@ function executeStatement(statement, fromPoint){
 			return calculateG03(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
 		break;
 
+		case "G28":
+			return calculateG28(fromPoint.x, fromPoint.z, statement.X, statement.Z);
+		break;
+
 		case "G90":
 			return calculateG90(fromPoint.x, fromPoint.z, statement.X, statement.Z, statement.R);
 		break;
@@ -38,7 +42,6 @@ function executeStatement(statement, fromPoint){
 var console = {
 	log: function(){}
 };
-
 
 
 function start(code){
@@ -58,6 +61,10 @@ function start(code){
 
 	for(line in codeArray){
 
+		if(!codeArray[line].trim()) continue;
+
+		if(codeArray[line].trim().indexOf("[") === 0) continue;
+
 		console.log("Statement: " + codeArray[line]);
 
 		statement = getStatement(codeArray[line]);
@@ -74,7 +81,7 @@ function start(code){
 		pathArray = executeStatement(statement, fromPoint);
 
 		for(index in pathArray){
-			// for(var i =0; i < 700000; i++){}
+			for(var i =0; i < 700000; i++){}
 			self.postMessage(pathArray[index]);
 			// callBack(pathArray[index]);
 		}
