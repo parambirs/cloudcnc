@@ -68,7 +68,7 @@ function run(){
 }
 
 // input: array of code lines
-// returns: Billet object {diameter: value, length: value}
+// returns: Billet object {radius: value, length: value}
 // throws: exception if [BILLET, X\d or Z\d not found
 function getBillet(codeArray){
 	
@@ -90,11 +90,11 @@ function getBillet(codeArray){
 		throw  errMessage;
 	}
 
-	var diameterPattern = /\sX\d+\s/;
-	var diameter = diameterPattern.exec(billetLine);
+	var radiusPattern = /\sX\d+\s/;
+	var radius = radiusPattern.exec(billetLine);
 
-	if(!diameter){
-		var errMessage = 'Billet diameter not found';
+	if(!radius){
+		var errMessage = 'Billet radius not found';
 		console.log(errMessage);
 		throw  errMessage;
 	}
@@ -112,10 +112,10 @@ function getBillet(codeArray){
 
 	var numberPattern = /\d+/;
 
-	diameter = numberPattern.exec(diameter);
+	radius = numberPattern.exec(radius);
 	length = numberPattern.exec(length);
 	
-	var billet = {'diameter':diameter[0], 'length': length[0], 'properties': billetProperties};
+	var billet = {'radius':radius[0], 'length': length[0], 'properties': billetProperties};
 
 	return billet;
 }

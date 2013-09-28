@@ -4,7 +4,7 @@ var cncCtx;
 function drawBillet(billet) {
 	
 	cncCtx.fillStyle = billet.properties.color;
-	cncCtx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
+	cncCtx.fillRect(-billet.length, -billet.radius, billet.length, billet.radius*2);
 }
 
 function highlightEdge(ctx, billet) {
@@ -25,12 +25,15 @@ function highlightEdge(ctx, billet) {
 			return color === '#FFFFFF';
 		}
 
+		var edgePoints = [];
+
 		for (var i = 0; i < billetImgData.data.length; i += 4) {
 			if(isWhitePixel(i)) {
-				billetImgData.data[i] = 0;
-				billetImgData.data[i+1] = 255;
-				billetImgData.data[i+2] = 0;
-				billetImgData.data[i+3] = 128;
+				edgePoints
+				// billetImgData.data[i] = 0;
+				// billetImgData.data[i+1] = 255;
+				// billetImgData.data[i+2] = 0;
+				// billetImgData.data[i+3] = 128;
 			} else {
 				billetImgData.data[i] = 0;
 				billetImgData.data[i+1] = 0;
