@@ -1,4 +1,3 @@
-
 var cnc;
 var cncCtx;
 
@@ -6,6 +5,43 @@ function drawBillet(billet) {
 	
 	cncCtx.fillStyle = billet.properties.color;
 	cncCtx.fillRect(-billet.length, -billet.diameter/2, billet.length, billet.diameter);
+}
+
+function highlightEdge(ctx, billet) {
+		var billetImgData = ctx.getImageData(0, ctx.canvas.height / 2 - billet.diameter/2, billet.length, billet.diameter);
+		
+		function componentToHex(c) {
+		    var hex = c.toString(16);
+		    return hex.length == 1 ? "0" + hex : hex;
+		}
+
+		function rgbToHex(r, g, b) {
+		    return ("#" + componentToHex(r) + componentToHex(g) + componentToHex(b)).toUpperCase();
+		}
+
+		function isWhitePixel(i) {
+			var color = rgbToHex(billetImgData.data[i], billetImgData.data[i+1], billetImgData.data[i+2]);
+			// console.log('color = ' + color);
+			return color === '#FFFFFF';
+		}
+
+		for (var i = 0; i < billetImgData.data.length; i += 4) {
+			if(isWhitePixel(i)) {
+				billetImgData.data[i] = 0;
+				billetImgData.data[i+1] = 255;
+				billetImgData.data[i+2] = 0;
+				billetImgData.data[i+3] = 128;
+			} else {
+				billetImgData.data[i] = 0;
+				billetImgData.data[i+1] = 0;
+				billetImgData.data[i+2] = 255;
+				billetImgData.data[i+3] = 128;
+			}
+		}
+
+		ctx.putImageData(billetImgData, 50, 50);
+		// ctx.fillStyle = '#00FF00';
+		// ctx.fillRect(0, 0, billet.length, billet.diameter/2);
 }
 
 function initSimulation() {

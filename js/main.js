@@ -51,6 +51,7 @@ function run(){
 
 		if(e.data === "The End"){
 			// get3DData(cnc, cncCtx, billet);
+			highlightEdge(cncCtx, billet);
 			return;
 		}
 
