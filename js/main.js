@@ -1,5 +1,5 @@
 $(document).ready(function(){ 
-	$( "#editorDiv").load( "examples/simple.cnc" );
+	$( "#editorDiv").load( "examples/complete.cnc" );
 	initScreen();
 
 	setTimeout(function(){
