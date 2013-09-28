@@ -9,6 +9,19 @@ $(document).ready(function(){
 	$(window).resize(function () { 
 		initScreen();
 	});
+
+	$("#btnStart").click(function (){
+
+	if($(this).text() === "Start"){
+		run();
+		$(this).text("Stop");
+	} else {
+		stop();
+		$(this).text("Start");
+	}
+		
+		
+	});
 });
 
 function test(){
@@ -60,6 +73,7 @@ function run(){
 		if(e.data === "The End"){
 			// get3DData(cnc, cncCtx, billet);
 			// highlightEdge(cncCtx, billet);
+			$("#btnStart").text("Start");
 			return;
 		}
 

@@ -71,6 +71,24 @@ body {
 
 }
 
+#footer #copyrights{
+	float: left;
+	padding-left: 10px;
+	color: #8D8D8D;
+	line-height: 32px;
+	font-family: Arial;
+	font-size: 10px;
+}
+
+#footer #email{
+	float: right;
+	padding-right: 10px;
+	line-height: 32px;
+	color: #8D8D8D;
+	font-family: Arial;
+	font-size: 12px;
+}
+
 #toolbar{
 	position: relative;
 	width: 100%;				
