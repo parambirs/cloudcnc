@@ -8,8 +8,23 @@ function drawBillet(billet) {
 }
 
 function highlightEdge(ctx, billet) {
-		var billetImgData = ctx.getImageData(0, ctx.canvas.height / 2 - billet.diameter/2, billet.length, billet.diameter);
+
+		// Fetching half billet from CNC workarea, we are fetching one pixel row extra to simplify algo.		
+		var billetImgData = ctx.getImageData(0, ctx.canvas.height / 2 - billet.radius - 1, billet.length, billet.radius + 1);
 		
+		var DIRECTION = {
+			DOWN:  0,
+			RIGHT: 1,
+			UP: 2	
+		}
+		
+
+		var directionFlag = DIRECTION.DOWN;
+
+		function getNextDirection(i){
+			
+		}
+
 		function componentToHex(c) {
 		    var hex = c.toString(16);
 		    return hex.length == 1 ? "0" + hex : hex;
@@ -29,11 +44,11 @@ function highlightEdge(ctx, billet) {
 
 		for (var i = 0; i < billetImgData.data.length; i += 4) {
 			if(isWhitePixel(i)) {
-				edgePoints
-				// billetImgData.data[i] = 0;
-				// billetImgData.data[i+1] = 255;
-				// billetImgData.data[i+2] = 0;
-				// billetImgData.data[i+3] = 128;
+				
+				billetImgData.data[i] = 0;
+				billetImgData.data[i+1] = 255;
+				billetImgData.data[i+2] = 0;
+				billetImgData.data[i+3] = 128;
 			} else {
 				billetImgData.data[i] = 0;
 				billetImgData.data[i+1] = 0;

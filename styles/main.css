@@ -8,6 +8,20 @@ body {
 	margin: 0px;
 }
 
+#product_name{
+	color: white;
+	font-family: Arial;
+	font-size: 20px;
+	float: left;
+	height: 100%;
+	padding-left: 10px;
+}
+
+.product_release_name{
+	color: #ff8800;
+	font-size: 30px;
+}
+
 #options{
 	position: absolute;
 	background-color: rgb(185,185,185);
@@ -36,9 +50,10 @@ body {
 	float: left;
 	text-align: center;
 	color: #FFFFFA;
-	height: 80%;
-	padding-top: 4%;
-	font-family: sans-serif;
+	font-family: Arial;
+	font-size: 15px;
+	line-height: 40px;
+	border-left: 1px solid #686868;
 }
 
 .toolbar_button:hover{
@@ -72,6 +87,7 @@ body {
 	font-family:"Courier New", Courier, monospace;    
 	text-transform:uppercase;
 	line-height: 20px;	
+	 resize: none;
 }
 
 #editorDiv:focus{
@@ -88,7 +104,7 @@ body {
 	font-family:"Courier New", Courier, monospace;    
 	text-transform:uppercase;
 	line-height: 20px;
-
+ 	resize: none;
 	background-color: #A1A194;
 }
 

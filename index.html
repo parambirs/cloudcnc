@@ -24,6 +24,7 @@
 
 	<body>
 		<div id="toolbar">
+			<div id="product_name">CNC Lathe Simulator <span class="product_release_name">&alpha;</span></div>
 			<div id="menuButtons">
 				<div class="toolbar_button" onclick="run()">Start</div>
 				<div class="toolbar_button">Stop</div>
@@ -37,6 +38,18 @@
 		</div>
 		<div id="footer"></div>
 		<img src="tools/tool.bmp" style="display: none" />
+		<script type="text/javascript">
+			var x = [];
+			var val = 1;
+			for(var i = 0; i < 10; i++){
+				var y = [];
+				for(var j = 0; j < 10; j++){
+					y[j] = val++;
+				}
+				x[i] = y;
+			}
+			console.log(x[5][5]);
+		</script>
 	</body>
 
 </html>

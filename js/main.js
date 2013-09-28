@@ -1,6 +1,14 @@
 $(document).ready(function(){ 
 	$( "#editorDiv").load( "examples/simple.cnc" );
 	initScreen();
+
+	setTimeout(function(){
+		run();
+	}, 500);
+
+	$(window).resize(function () { 
+		initScreen();
+	});
 });
 
 function test(){
@@ -51,7 +59,7 @@ function run(){
 
 		if(e.data === "The End"){
 			// get3DData(cnc, cncCtx, billet);
-			highlightEdge(cncCtx, billet);
+			// highlightEdge(cncCtx, billet);
 			return;
 		}
 
@@ -146,7 +154,7 @@ function initScreen(){
 	$('#editor').css('width', settings.editorWidth + 'px');
 
 	// Setting editorDiv
-	$('#editorDiv').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight - settings.topPadding) + 'px');
+	$('#editorDiv').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight - settings.topPadding - 1) + 'px');
 	$('#editorDiv').css('width', (settings.editorWidth - settings.leftPadding - settings.lineNumbersWidth) + 'px');
 	// $('#editorDiv').css('padding-left', settings.leftPadding + 'px');
 	// $('#editorDiv').css('padding-top', settings.topPadding + 'px');
@@ -164,7 +172,9 @@ function initScreen(){
 	$('#options').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight) + 'px');
 
 
+
 	// Setting CNC
+	$( "#cnc" ).remove();
 	var cnc = document.createElement('canvas');
 	cnc.setAttribute('id', 'cnc');
 	cnc.height = (window.innerHeight - settings.toolbarHeight - settings.footerHeight);
