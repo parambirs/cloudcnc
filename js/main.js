@@ -138,7 +138,7 @@ function getBillet(codeArray){
 	radius = numberPattern.exec(radius);
 	length = numberPattern.exec(length);
 	
-	var billet = {'radius':radius[0], 'length': length[0], 'properties': billetProperties};
+	var billet = {'radius':radius[0], 'length': length[0], 'properties': config.billetProperties};
 
 	return billet;
 }
@@ -151,32 +151,32 @@ function initScreen(){
 	var windowWidth = $(window).width();
 	
 	// Setting toolbar
-	$('#toolbar').css('height',  Settings.homeProperties.toolbarHeight + 'px');
+	$('#toolbar').css('height',  config.homeProperties.toolbarHeight + 'px');
 
 	// Setting editor
-	$('#editor').css('height', (windowHeight - Settings.homeProperties.toolbarHeight - Settings.homeProperties.footerHeight) + 'px');
-	$('#editor').css('width', Settings.homeProperties.editorWidth + 'px');
+	$('#editor').css('height', (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight) + 'px');
+	$('#editor').css('width', config.homeProperties.editorWidth + 'px');
 
 	// Line numbers
-	$('#lineNumbers').css('height', (windowHeight - Settings.homeProperties.toolbarHeight - Settings.homeProperties.footerHeight) + 'px');
-	$('#lineNumbers').css('width' , (Settings.homeProperties.lineNumbersWidth) + 'px');
+	$('#lineNumbers').css('height', (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight) + 'px');
+	$('#lineNumbers').css('width' , (config.homeProperties.lineNumbersWidth) + 'px');
 
 	// Setting editorDiv
-	$('#editorDiv').css('height', (windowHeight - Settings.homeProperties.toolbarHeight - Settings.homeProperties.footerHeight) + 'px');
-	$('#editorDiv').width((Settings.homeProperties.editorWidth - Settings.homeProperties.lineNumbersWidth) + 'px');
-	// $('#editorDiv').css('padding-left', settings.leftPadding + 'px');
-	// $('#editorDiv').css('padding-top', settings.topPadding + 'px');
+	$('#editorDiv').css('height', (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight) + 'px');
+	$('#editorDiv').width((config.homeProperties.editorWidth - config.homeProperties.lineNumbersWidth) + 'px');
+	// $('#editorDiv').css('padding-left', config.leftPadding + 'px');
+	// $('#editorDiv').css('padding-top', config.topPadding + 'px');
 
 	// Setting simulator
-	$('#simulator').css('height', (windowHeight - Settings.homeProperties.toolbarHeight - Settings.homeProperties.footerHeight) + 'px');
-	$('#simulator').css('width' , (windowWidth - Settings.homeProperties.editorWidth) + 'px');
+	$('#simulator').css('height', (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight) + 'px');
+	$('#simulator').css('width' , (windowWidth - config.homeProperties.editorWidth) + 'px');
 
 
 	// Setting footer	
-	$('#footer').css('height', Settings.homeProperties.footerHeight + 'px');
+	$('#footer').css('height', config.homeProperties.footerHeight + 'px');
 
 	// // Options overlay
-	// $('#options').css('height', (window.innerHeight - settings.toolbarHeight - settings.footerHeight) + 'px');
+	// $('#options').css('height', (window.innerHeight - config.toolbarHeight - config.footerHeight) + 'px');
 
 
 
@@ -184,8 +184,8 @@ function initScreen(){
 	$( "#cnc" ).remove();
 	var cnc = document.createElement('canvas');
 	cnc.setAttribute('id', 'cnc');
-	cnc.height = (windowHeight - Settings.homeProperties.toolbarHeight - Settings.homeProperties.footerHeight);
-	cnc.width = (windowWidth - Settings.homeProperties.editorWidth);
+	cnc.height = (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight);
+	cnc.width = (windowWidth - config.homeProperties.editorWidth);
 	var simulator = document.getElementById('simulator');
 	simulator.appendChild(cnc);
 
