@@ -28,9 +28,12 @@ function stop(){
 }
 
 function run(){
+	var cnc = document.getElementById(context.getCncCanvasId());
+	var cncCtx = cnc.getContext("2d");
+
 	delete context.prevPoint;
 	
-	initSimulation();
+	graphics.initSimulation();
 
 	// codeRunner is a worker thread that parses the CNC program and executes the code
 	context.codeRunner = new Worker('js/parser.js');
@@ -42,24 +45,25 @@ function run(){
 	context.codeRunner.addEventListener('message', function(e){
 		
 		if(context.prevPoint) {
-			drawGhostTool(cncCtx, tool, context.prevPoint);
+			graphics.drawGhostTool(cncCtx, context.prevPoint);
 		}
 
 		if(e.data === "The End"){
 			$("#btnStart").text("Start");
 			
 		} else {
-			drawTool(cncCtx, tool, e.data);
+			graphics.drawTool(cncCtx, e.data);
 			context.prevPoint = e.data;	
 		}
 
 	}, false);
 
 	// to reset canvas
+
 	cnc.width = cnc.width;
-	
+
 	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
-	drawBillet(billet);
+	graphics.drawBillet(billet);
 	context.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
 }
 

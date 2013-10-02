@@ -128,9 +128,6 @@ var parser = (function() {
 	}; // end of return
 })();
 
-
-
-
 self.addEventListener('message', function(e){
 	parser.start(e.data);
 }, false);
