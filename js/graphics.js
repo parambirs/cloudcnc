@@ -10,54 +10,7 @@ function drawBillet(billet) {
 function highlightEdge(ctx, billet) {
 
 		// Fetching half billet from CNC workarea, we are fetching one pixel row extra to simplify algo.		
-		var billetImgData = ctx.getImageData(0, ctx.canvas.height / 2 - billet.radius - 1, billet.length, billet.radius + 1);
 		
-		var DIRECTION = {
-			DOWN:  0,
-			RIGHT: 1,
-			UP: 2	
-		}
-		
-
-		var directionFlag = DIRECTION.DOWN;
-
-		function getNextDirection(i){
-			
-		}
-
-		function componentToHex(c) {
-		    var hex = c.toString(16);
-		    return hex.length == 1 ? "0" + hex : hex;
-		}
-
-		function rgbToHex(r, g, b) {
-		    return ("#" + componentToHex(r) + componentToHex(g) + componentToHex(b)).toUpperCase();
-		}
-
-		function isWhitePixel(i) {
-			var color = rgbToHex(billetImgData.data[i], billetImgData.data[i+1], billetImgData.data[i+2]);
-			// console.log('color = ' + color);
-			return color === '#FFFFFF';
-		}
-
-		var edgePoints = [];
-
-		for (var i = 0; i < billetImgData.data.length; i += 4) {
-			if(isWhitePixel(i)) {
-				
-				billetImgData.data[i] = 0;
-				billetImgData.data[i+1] = 255;
-				billetImgData.data[i+2] = 0;
-				billetImgData.data[i+3] = 128;
-			} else {
-				billetImgData.data[i] = 0;
-				billetImgData.data[i+1] = 0;
-				billetImgData.data[i+2] = 255;
-				billetImgData.data[i+3] = 128;
-			}
-		}
-
-		ctx.putImageData(billetImgData, 50, 50);
 		// ctx.fillStyle = '#00FF00';
 		// ctx.fillRect(0, 0, billet.length, billet.diameter/2);
 }
