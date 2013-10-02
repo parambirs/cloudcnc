@@ -16,7 +16,7 @@ function highlightEdge(ctx, billet) {
 }
 
 function initSimulation() {
-	cnc = document.getElementById("cnc");
+	cnc = document.getElementById("cncCanvas");
 	cncCtx = cnc.getContext("2d");
 	tool = initTool('tools/tool.bmp');
 }

@@ -13,81 +13,54 @@ $(document).ready(function(){
 
 	$("#btnStart").click(function (){
 
-	if($(this).text() === "Start"){
-		run();
-		$(this).text("Stop");
-	} else {
-		stop();
-		$(this).text("Start");
-	}
-		
-		
+		if($(this).text() === "Start"){
+			run();
+			$(this).text("Stop");
+		} else {
+			stop();
+			$(this).text("Start");
+		}
 	});
 });
 
-function test(){
-	if ($('#options').right < 0){
-		$('#options').animate({"right": -300}, "fast");	
-	} else {
-		$('#options').animate({"right": 0}, "fast");
-	}
-	
-}
-// Global variables for the application
-var MYAPP = {};
-
-// codeRunner is a worker thread that parses the CNC program and 
-// executes the code
-
-
-// Event handler for the run button
-
-// function callBack(data){
-// 		console.log("codeRunner received message: " + data.x + "-" + data.z);
-// 	if(MYAPP.prevPoint) {
-// 		drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
-// 	}
-
-// 	drawTool(cncCtx, tool, data);
-// 	MYAPP.prevPoint = data;
-// }
-
 function stop(){
-	MYAPP.codeRunner && MYAPP.codeRunner.terminate();
+	context.codeRunner && context.codeRunner.terminate();
 }
 
 function run(){
-	delete MYAPP.prevPoint;
+	delete context.prevPoint;
+	
 	initSimulation();
-	MYAPP.codeRunner = new Worker('js/parser.js');
 
-	var codeA = $('#editorDiv').val().toUpperCase().split('\n');
-	var billet = getBillet(codeA);
-	var that = this;
-	MYAPP.codeRunner.addEventListener('message', function(e){
-		// console.log("codeRunner received message: " + e.data.x + "-" + e.data.z);
+	// codeRunner is a worker thread that parses the CNC program and executes the code
+	context.codeRunner = new Worker('js/parser.js');
+
+	var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
+	var billet = getBillet(codeLines);
+
+	// Event handler for the run button
+	context.codeRunner.addEventListener('message', function(e){
 		
-		if(MYAPP.prevPoint) {
-			drawGhostTool(cncCtx, tool, MYAPP.prevPoint);
+		if(context.prevPoint) {
+			drawGhostTool(cncCtx, tool, context.prevPoint);
 		}
 
 		if(e.data === "The End"){
-			// get3DData(cnc, cncCtx, billet);
-			// highlightEdge(cncCtx, billet);
 			$("#btnStart").text("Start");
-			return;
+			
+		} else {
+			drawTool(cncCtx, tool, e.data);
+			context.prevPoint = e.data;	
 		}
 
-		drawTool(cncCtx, tool, e.data);
-		MYAPP.prevPoint = e.data;
 	}, false);
 
-	
+	// to reset canvas
 	cnc.width = cnc.width;
+	
 	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 	drawBillet(billet);
-	// start($('#editorDiv').val().toUpperCase());
-	MYAPP.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
+	context.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
 }
 
 // input: array of code lines
@@ -181,9 +154,9 @@ function initScreen(){
 
 
 	// Setting CNC
-	$( "#cnc" ).remove();
+	$( "#cncCanvas" ).remove();
 	var cnc = document.createElement('canvas');
-	cnc.setAttribute('id', 'cnc');
+	cnc.setAttribute('id', 'cncCanvas');
 	cnc.height = (windowHeight - config.homeProperties.toolbarHeight - config.homeProperties.footerHeight);
 	cnc.width = (windowWidth - config.homeProperties.editorWidth);
 	var simulator = document.getElementById('simulator');

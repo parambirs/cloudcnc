@@ -160,7 +160,7 @@ body {
 	height: 100%;
 	z-index: 100;	
 }
-#cnc{
+#cncCanvas{
 	position: relative;
 	background-color: #fff;
 	padding: 0px;
