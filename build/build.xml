@@ -3,12 +3,24 @@
 
   	<import file="${sdk.dir}/config/user/ant-macros.xml" />
 	
-
 	<path id="project.classpath">
 		<fileset dir="${sdk.dir}/lib">
 			<include name="shared/**/*.jar" />
 		</fileset>
+		<fileset dir="deps">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
+
+	<taskdef resource="yuicompressor.tasks" classpathref="project.classpath"/>	
+
+	<fileset dir="war/js" id="js.minify.files">
+		<include name="config.js"/>
+		<include name="gcodes.js"/>
+		<include name="graphics.js"/>
+		<include name="parser.js"/>
+		<include name="main.js"/>
+	</fileset>
 
 	<target name="clean" description="Cleans the war folder">
 		<delete includeEmptyDirs="true">
@@ -30,6 +42,18 @@
 		<copy todir="war">
 			<fileset dir="../src/main/webapp"/>
 		</copy>
+	</target>
+
+	<target name="compress" depends="compile" description="Compress JS files using YUI Compressor">
+		<yuicompressor todir="war/js" verbose="true">
+			<fileset refid="js.minify.files"/>
+			<mapper type="glob" from="*.js" to="*-min.js"/>
+		</yuicompressor>
+		<replace dir="war/js" token="parser.js" value="parser-min.js"/>
+		<replace dir="war/js" token="gcodes.js" value="gcodes-min.js"/>
+		<delete>
+    			<fileset refid="js.minify.files"/>
+  		</delete>
 	</target>
 
 	<target name="runserver" depends="compile" description="Starts the development server">
