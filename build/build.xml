@@ -45,15 +45,12 @@
 	</target>
 
 	<target name="compress" depends="compile" description="Compress JS files using YUI Compressor">
-		<yuicompressor todir="war/js" verbose="true">
+		<yuicompressor todir="war/js" deleteOriginal="true">
 			<fileset refid="js.minify.files"/>
 			<mapper type="glob" from="*.js" to="*-min.js"/>
 		</yuicompressor>
 		<replace dir="war/js" token="parser.js" value="parser-min.js"/>
 		<replace dir="war/js" token="gcodes.js" value="gcodes-min.js"/>
-		<delete>
-    			<fileset refid="js.minify.files"/>
-  		</delete>
 	</target>
 
 	<target name="runserver" depends="compile" description="Starts the development server">
