@@ -14,12 +14,18 @@
 
 	<taskdef resource="yuicompressor.tasks" classpathref="project.classpath"/>	
 
+	<!-- Files that are merged into single js -->
+	<fileset dir="war/js" id="js.merge.files">
+    	<include name="config.js" />
+		<include name="graphics.js" />
+		<include name="main.js" />
+	</fileset>
+
+	<!-- Files that are minified -->
 	<fileset dir="war/js" id="js.minify.files">
-		<include name="config.js"/>
+		<include name="cloudcnc.js"/>
 		<include name="gcodes.js"/>
-		<include name="graphics.js"/>
 		<include name="parser.js"/>
-		<include name="main.js"/>
 	</fileset>
 
 	<target name="clean" description="Cleans the war folder">
@@ -45,6 +51,15 @@
 	</target>
 
 	<target name="compress" depends="compile" description="Compress JS files using YUI Compressor">
+		<!-- Concatenate files into single js -->
+		<concat destfile="war/js/cloudcnc.js" encoding="UTF-8" outputencoding="UTF-8" fixlastline="true">
+	        <fileset refid="js.merge.files"/>
+	    </concat>
+	    <delete>
+			<fileset refid="js.merge.files"/>
+	    </delete>
+
+		<!-- Compress using YUI Compressor -->
 		<yuicompressor todir="war/js" deleteOriginal="true">
 			<fileset refid="js.minify.files"/>
 			<mapper type="glob" from="*.js" to="*-min.js"/>
