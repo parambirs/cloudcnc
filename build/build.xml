@@ -60,7 +60,11 @@
 		<dev_appserver war="war"/>
 	</target>
 
-	<target name="update" depends="compile" description="Uploads the application to the App Engine.">
+	<target name="update" depends="compress" description="Uploads the application to the App Engine.">
 		<appcfg action="update" war="war" />
+	</target>
+
+	<target name="rollback" depends="compress" description="Rolls back an interrupted application update.">
+	    <appcfg action="rollback" war="war" />
 	</target>
 </project>
