@@ -121,14 +121,31 @@ body {
 
 #editor{
 	float: left;		
-	background-color: #944;	
+	background-color: #A1A194;
+	/*background-color: #944;	
 	color: #fff;
 	font-size: 14px;
 	font-family:"Courier New", Courier, monospace;    
 	text-transform:uppercase;
 	line-height: 20px;	
 	resize: none;
+	padding: 0px;*/
+}
+
+#runtimeEditor{
+	float: right;
+	background-color: #A1A194;
+	color: #FFFFFA;
+}
+
+#editor div{
+	font-size: 14px;
+	font-family:"Courier New", Courier, monospace;    
+	text-transform:uppercase;
+	line-height: 20px;	
 	padding: 0px;
+	border-bottom: 1px solid black inset;
+
 }
 
 #editorDiv:focus{

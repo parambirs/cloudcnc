@@ -35,6 +35,7 @@ function stop(){
 }
 
 function run(){
+	test();
 	var cnc = document.getElementById(context.getCncCanvasId());
 	var cncCtx = cnc.getContext("2d");
 
@@ -61,6 +62,10 @@ function run(){
 	console.log('Number of lines of code: ' + codeArray.length);
 
 	var currentIndex = 0;
+	var preIndex = 0;
+	var editorHeight = $("#runtimeEditor").height();
+	var scrollPosition = 20;
+	var scrollValue = 20;
 	var data = {
 		isCncCode: true,
 		cncCode: codeArray[currentIndex].trim()
@@ -95,11 +100,24 @@ function run(){
 		// if(e.data.type === 'toolDrawPointReady') {
 				
 		// } else 
+		
 		if(e.data.type === 'parsingComplete') {
 			if(currentIndex < codeArray.length - 1) {
 				data.cncCode = codeArray[++currentIndex].trim();
 				context.codeRunner.postMessage(data);
+				$("#line-" + preIndex).css("background-color", "#A1A194");
+				$("#line-" + currentIndex).css("background-color", "#CECEBB");
 				console.log('Now executing: ' + data.cncCode);
+				preIndex = currentIndex;
+				scrollPosition = scrollPosition + 20;
+
+				if(scrollPosition > editorHeight){
+					$("#runtimeEditor").scrollTop(scrollValue);
+					scrollValue += 20;
+				}
+			} else {
+				$("#line-" + preIndex).css("background-color", "#A1A194");
+				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 			}	
 		} else {
 			graphics.drawTool(cncCtx, e.data.position);

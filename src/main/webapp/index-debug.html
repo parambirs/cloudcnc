@@ -13,6 +13,39 @@
 		<script src='js/gcodes.js'></script>
 		<script src='js/graphics.js'></script>
 		<script src='js/config.js'></script>
+
+		<script type="text/javascript">
+
+		function test1(){
+			$("#runtimeEditor").animate({scrollTop: 20}, 800);
+		}
+		
+		function test(){
+
+			var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
+			var editorWidth =  $("#editorDiv").width();
+			var editorHeight =  $("#editorDiv").height();
+			
+			$("#lineNumbers").hide();
+			$("#editorDiv").hide();
+			var editor = document.getElementById('editor');
+			var newDiv = document.createElement('div');
+			newDiv.setAttribute('id', 'runtimeEditor');
+			$(newDiv).css('overflow', 'auto');
+			$(newDiv).width(editorWidth);
+			$(newDiv).height(editorHeight);
+			for(var index = 0; index < codeLines.length; index++){
+				var li = document.createElement('div');
+				li.setAttribute('id', 'line-' + index);
+				$(li).html(codeLines[index]);
+				// $(cnc).html("<ol start='" + (index+1) + "''><li>" + codeLines[index] + "</li></ol>");
+				newDiv.appendChild(li);
+			}
+			// newDiv.appendChild(ol);
+			editor.appendChild(newDiv);
+		}
+
+		</script>
 	</head>
 
 	<body>
