@@ -1,13 +1,20 @@
 
 importScripts('gcodes.js');
 
-var toolSpeed = 300000;
 
-function getspeed(){
-	return toolSpeed;
-}
 var parser = (function() {
 	// console is not available inside webworker
+	var toolSpeed = 300000;
+
+	var getSpeed = function() {
+		return toolSpeed;
+	}
+
+	var setSpeed = function(newSpeed) {
+		toolSpeed = newSpeed;
+		throw toolSpeed;
+	}
+	
 	var console = {
 		log: function(){}
 	};
@@ -117,9 +124,8 @@ var parser = (function() {
 
 				for(index in pathArray){
 					// self.postMessage(getToolSpeed());
-					for(var i =0; i < getspeed(); i++){}
 					self.postMessage(pathArray[index]);
-					// self.postMessage(getspeed());
+					// self.postMessage(getSpeed());
 					// callBack(pathArray[index]);
 
 				}
@@ -139,18 +145,18 @@ var parser = (function() {
 		}, // end of start()
 
 		execute : function(data){
-			// self.postMessage(data.isCncCode);
+			// self.postMessage(data);
+			// self.postMessage({isConsoleLog: true, msg: 'toolSpeed = ' + data});
+			self.postMessage('hi');
 			if(data.isCncCode){
 				this.start(data.cncCode);
 			} else if(data.isToolSettings){
-				toolSpeed = Math.abs(parseInt(data.toolSpeed) - 49) * 100000;				
+				setSpeed(Math.abs(parseInt(data.toolSpeed) - 49) * 100000);				
 			}
-			
-		},
+		}
 	}; // end of return
 })();
 
 self.addEventListener('message', function(e){
-	
 	parser.execute(e.data);
 }, false);

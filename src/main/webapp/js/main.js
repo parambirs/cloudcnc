@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+	// $( "#editorDiv").load( "examples/simple.cnc" );
 	$( "#editorDiv").load( "examples/complete.cnc" );
 
 	initScreen();
@@ -23,15 +24,14 @@ $(document).ready(function(){
 	});
 
 	context.codeRunner = new Worker('js/parser.js');
+	context.speedBreaker = new Worker('js/speedbreaker.js');
 
 	$("#speedSlider").change(function(){
-		var data = {
-			isToolSettings: true,
-			toolSpeed: $(this).val()
-		}
-
-		context.codeRunner.postMessage(data);
+		// console.log("slider value = " + $(this).val());
+		context.speedBreaker.postMessage({type: 'setSpeed', speed: $(this).val()});
 	});
+	context.speedBreaker.postMessage({type: 'setSpeed', speed: $('#speedSlider').val()});
+
 });
 
 function stop(){
@@ -54,9 +54,14 @@ function run(){
 
 	// Event handler for the run button
 	context.codeRunner.addEventListener('message', function(e){
+		context.speedBreaker.postMessage({type: 'toolDrawPoint', position: e.data, speed: $('#speedSlider').val() });
+
+	}, false);
+
+	// Event handler for the run button
+	context.speedBreaker.addEventListener('message', function(e){
 
 		// console.log(e.data);
-
 		if(context.prevPoint) {
 			graphics.drawGhostTool(cncCtx, context.prevPoint);
 		}
@@ -64,9 +69,10 @@ function run(){
 		if(e.data === "The End"){
 			$("#btnStart").text("Start");
 			
-		} else {
-			graphics.drawTool(cncCtx, e.data);
-			context.prevPoint = e.data;	
+		}
+		else {
+			graphics.drawTool(cncCtx, e.data.position);
+			context.prevPoint = e.data.position;	
 		}
 
 	}, false);
