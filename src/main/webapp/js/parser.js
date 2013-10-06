@@ -4,20 +4,12 @@ importScripts('gcodes.js');
 
 var parser = (function() {
 	// console is not available inside webworker
-	var toolSpeed = 300000;
-
-	var getSpeed = function() {
-		return toolSpeed;
-	}
-
-	var setSpeed = function(newSpeed) {
-		toolSpeed = newSpeed;
-		throw toolSpeed;
-	}
-	
 	var console = {
 		log: function(){}
 	};
+
+	var prevX = 100, prevZ=100, prevR, prevCNCCode;
+	var fromPoint = {x: prevX, z: prevZ};
 
 	var executeStatement = function(statement, fromPoint){
 
@@ -97,9 +89,6 @@ var parser = (function() {
 
 			var statement;
 			var pathArray;
-			var prevX = 100, prevZ=100, prevR, prevCNCCode;
-
-			var fromPoint = {x: prevX, z: prevZ};
 
 			for(line in codeArray){
 
@@ -110,7 +99,6 @@ var parser = (function() {
 				console.log("Statement: " + codeArray[line]);
 
 				statement = getStatement(codeArray[line]);
-
 				
 				//setting default values
 				statement.cncCode = statement.cncCode || prevCNCCode;
@@ -118,13 +106,13 @@ var parser = (function() {
 				statement.Z = statement.Z || prevZ;
 				statement.R = statement.R || prevR;
 
-				console.log("Statement object: " + statement.toString());
+				// throw ("Statement object: " + statement.toString());
 
 				pathArray = executeStatement(statement, fromPoint);
 
 				for(index in pathArray){
 					// self.postMessage(getToolSpeed());
-					self.postMessage(pathArray[index]);
+					self.postMessage({type: 'toolDrawPoint', position: pathArray[index]});
 					// self.postMessage(getSpeed());
 					// callBack(pathArray[index]);
 
@@ -141,13 +129,14 @@ var parser = (function() {
 				prevCNCCode = statement.cncCode;
 			}
 
-			self.postMessage("The End");
+			// throw 'parsingComplete';
+			self.postMessage({type: 'parsingComplete'});
 		}, // end of start()
 
 		execute : function(data){
 			// self.postMessage(data);
 			// self.postMessage({isConsoleLog: true, msg: 'toolSpeed = ' + data});
-			self.postMessage('hi');
+			// self.postMessage('hi');
 			if(data.isCncCode){
 				this.start(data.cncCode);
 			} else if(data.isToolSettings){

@@ -4,10 +4,6 @@ $(document).ready(function(){
 
 	initScreen();
 
-	// setTimeout(function(){
-	// 	run();
-	// }, 500);
-
 	$(window).resize(function () { 
 		initScreen();
 	});
@@ -52,9 +48,39 @@ function run(){
 	var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
 	var billet = getBillet(codeLines);
 
+	// to reset canvas
+
+	cnc.width = cnc.width;
+
+	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
+	graphics.drawBillet(billet);
+
+	var code =  $('#editorDiv').val().toUpperCase();
+	var codeArray = code.split('\n');	
+
+	console.log('Number of lines of code: ' + codeArray.length);
+
+	var currentIndex = 0;
+	var data = {
+		isCncCode: true,
+		cncCode: codeArray[currentIndex].trim()
+	}	
+
+	console.log('Now executing: ' + data.cncCode);
+	context.codeRunner.postMessage(data);
+
 	// Event handler for the run button
 	context.codeRunner.addEventListener('message', function(e){
-		context.speedBreaker.postMessage({type: 'toolDrawPoint', position: e.data, speed: $('#speedSlider').val() });
+		// if(e.data.type === 'toolDrawPoint' || e.data.type === 'parsingComplete') {
+			context.speedBreaker.postMessage(e.data);
+		// }
+		// else if(e.data.type === 'lineSimulationComplete'){
+		// 	if(currentIndex < codeArray.length - 1) {
+		// 		data.cncCode = codeArray[++currentIndex].trim();
+		// 		context.codeRunner.postMessage(data);
+		// 		console.log('Now executing: ' + data.cncCode);
+		// 	}			
+		// }
 
 	}, false);
 
@@ -66,29 +92,21 @@ function run(){
 			graphics.drawGhostTool(cncCtx, context.prevPoint);
 		}
 
-		if(e.data === "The End"){
-			$("#btnStart").text("Start");
-			
-		}
-		else {
+		// if(e.data.type === 'toolDrawPointReady') {
+				
+		// } else 
+		if(e.data.type === 'parsingComplete') {
+			if(currentIndex < codeArray.length - 1) {
+				data.cncCode = codeArray[++currentIndex].trim();
+				context.codeRunner.postMessage(data);
+				console.log('Now executing: ' + data.cncCode);
+			}	
+		} else {
 			graphics.drawTool(cncCtx, e.data.position);
-			context.prevPoint = e.data.position;	
+			context.prevPoint = e.data.position;
 		}
 
 	}, false);
-
-	// to reset canvas
-
-	cnc.width = cnc.width;
-
-	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
-	graphics.drawBillet(billet);
-
-	var data = {
-		isCncCode: true,
-		cncCode: $('#editorDiv').val().toUpperCase()
-	}
-	context.codeRunner.postMessage(data);
 }
 
 // input: array of code lines
