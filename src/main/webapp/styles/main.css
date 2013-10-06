@@ -10,6 +10,26 @@ body {
 	overflow: hidden;
 }
 
+#speedDiv{
+	float: left;
+	height: 100%;
+	line-height: 32px;
+	margin-left: 20px;
+	color: #CAB663;
+	font-family: Arial;
+	font-size: 10px;
+	border-left: 1px solid #686868;
+	border-right: 1px solid #686868;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#speedDiv #speedSlider{
+	margin-left: 20px;
+	float: right;
+	height: 25px;
+}
+
 #product_name{
 	color: white;
 	font-family: Arial;

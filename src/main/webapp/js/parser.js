@@ -1,5 +1,11 @@
+
 importScripts('gcodes.js');
 
+var toolSpeed = 300000;
+
+function getspeed(){
+	return toolSpeed;
+}
 var parser = (function() {
 	// console is not available inside webworker
 	var console = {
@@ -68,10 +74,14 @@ var parser = (function() {
 		return statement;				
 	};
 
-	return {
+	
 
+	return {
+	
 		start : function (code){
-			
+			// for(var i = 0; i < this.toolSpeed; i++);
+			// self.postMessage(this.toolSpeed);
+
 			console.log('Starting program');
 
 			var codeArray = code.split('\n');	
@@ -80,7 +90,6 @@ var parser = (function() {
 
 			var statement;
 			var pathArray;
-
 			var prevX = 100, prevZ=100, prevR, prevCNCCode;
 
 			var fromPoint = {x: prevX, z: prevZ};
@@ -107,9 +116,12 @@ var parser = (function() {
 				pathArray = executeStatement(statement, fromPoint);
 
 				for(index in pathArray){
-					for(var i =0; i < 300000; i++){}
+					// self.postMessage(getToolSpeed());
+					for(var i =0; i < getspeed(); i++){}
 					self.postMessage(pathArray[index]);
+					// self.postMessage(getspeed());
 					// callBack(pathArray[index]);
+
 				}
 
 				if(pathArray) {
@@ -124,10 +136,21 @@ var parser = (function() {
 			}
 
 			self.postMessage("The End");
-		} // end of start()
+		}, // end of start()
+
+		execute : function(data){
+			// self.postMessage(data.isCncCode);
+			if(data.isCncCode){
+				this.start(data.cncCode);
+			} else if(data.isToolSettings){
+				toolSpeed = Math.abs(parseInt(data.toolSpeed) - 49) * 100000;				
+			}
+			
+		},
 	}; // end of return
 })();
 
 self.addEventListener('message', function(e){
-	parser.start(e.data);
+	
+	parser.execute(e.data);
 }, false);

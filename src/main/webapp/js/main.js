@@ -3,9 +3,9 @@ $(document).ready(function(){
 
 	initScreen();
 
-	setTimeout(function(){
-		run();
-	}, 500);
+	// setTimeout(function(){
+	// 	run();
+	// }, 500);
 
 	$(window).resize(function () { 
 		initScreen();
@@ -20,6 +20,17 @@ $(document).ready(function(){
 			stop();
 			$(this).text("Start");
 		}
+	});
+
+	context.codeRunner = new Worker('js/parser.js');
+
+	$("#speedSlider").change(function(){
+		var data = {
+			isToolSettings: true,
+			toolSpeed: $(this).val()
+		}
+
+		context.codeRunner.postMessage(data);
 	});
 });
 
@@ -36,14 +47,16 @@ function run(){
 	graphics.initSimulation();
 
 	// codeRunner is a worker thread that parses the CNC program and executes the code
-	context.codeRunner = new Worker('js/parser.js');
+	// context.codeRunner = new Worker('js/parser.js');
 
 	var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
 	var billet = getBillet(codeLines);
 
 	// Event handler for the run button
 	context.codeRunner.addEventListener('message', function(e){
-		
+
+		// console.log(e.data);
+
 		if(context.prevPoint) {
 			graphics.drawGhostTool(cncCtx, context.prevPoint);
 		}
@@ -64,7 +77,12 @@ function run(){
 
 	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 	graphics.drawBillet(billet);
-	context.codeRunner.postMessage($('#editorDiv').val().toUpperCase());
+
+	var data = {
+		isCncCode: true,
+		cncCode: $('#editorDiv').val().toUpperCase()
+	}
+	context.codeRunner.postMessage(data);
 }
 
 // input: array of code lines
