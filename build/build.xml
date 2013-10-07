@@ -60,12 +60,18 @@
 	    </delete>
 
 		<!-- Compress using YUI Compressor -->
-		<yuicompressor todir="war/js" deleteOriginal="true">
+		<ant-yui-compressor todir="war/js" deleteOriginal="true">
 			<fileset refid="js.minify.files"/>
 			<mapper type="glob" from="*.js" to="*-min.js"/>
-		</yuicompressor>
+		</ant-yui-compressor>
 		<replace dir="war/js" token="parser.js" value="parser-min.js"/>
 		<replace dir="war/js" token="gcodes.js" value="gcodes-min.js"/>
+		<ant-yui-compressor todir="war/styles" deleteOriginal="true">
+			<fileset dir="war/styles">
+				<include name="main.css"/>
+			</fileset>
+			<mapper type="glob" from="*.css" to="*-min.css"/>
+		</ant-yui-compressor>
 	</target>
 
 	<target name="runserver" depends="compile" description="Starts the development server">
