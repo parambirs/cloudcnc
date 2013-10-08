@@ -35,6 +35,9 @@ function stop(){
 }
 
 function run(){
+	// fire google analytics event tracking
+	ga('send', 'event', 'Simulation', 'Run');
+	
 	var cnc = document.getElementById(context.getCncCanvasId());
 	var cncCtx = cnc.getContext("2d");
 
