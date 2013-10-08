@@ -10,6 +10,16 @@ body {
 	overflow: hidden;
 }
 
+.breakPoint(){
+	background-color: "blue";
+}
+
+.breakPointArea{
+	float: left;
+	width: 30px;
+	height: 20px;
+}
+
 #speedDiv{
 	float: left;
 	height: 100%;

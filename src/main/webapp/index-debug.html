@@ -16,8 +16,15 @@
 
 		<script type="text/javascript">
 
+		var breakPoints = {};
+
 		function test1(){
 			$("#runtimeEditor").animate({scrollTop: 20}, 800);
+		}
+
+		function setBreakPoint(e){
+			breakPoints[$(e).data("index")] = true;
+			$(e).css("background-color", "red");
 		}
 		
 		function test(){
@@ -32,12 +39,26 @@
 			var newDiv = document.createElement('div');
 			newDiv.setAttribute('id', 'runtimeEditor');
 			$(newDiv).css('overflow', 'auto');
-			$(newDiv).width(editorWidth);
+			$(newDiv).width(editorWidth + 30);
 			$(newDiv).height(editorHeight);
 			for(var index = 0; index < codeLines.length; index++){
 				var li = document.createElement('div');
 				li.setAttribute('id', 'line-' + index);
-				$(li).html(codeLines[index]);
+				
+				var bp = document.createElement('div');
+				bp.setAttribute('id', 'bp-' + index);
+				
+				bp.setAttribute('class', 'breakPointArea');
+				bp.setAttribute('onClick', 'setBreakPoint(this)');
+				$(bp).data("index", index);
+				li.appendChild(bp);
+
+				var c = document.createElement('div');
+				c.setAttribute('id', 'c-' + index);
+				$(c).html(codeLines[index]);
+
+				li.appendChild(c);
+
 				// $(cnc).html("<ol start='" + (index+1) + "''><li>" + codeLines[index] + "</li></ol>");
 				newDiv.appendChild(li);
 			}
