@@ -119,6 +119,7 @@ function run(){
 					scrollValue += 20;
 				}
 			} else {
+				$("#btnStart").text("Start");
 				$("#line-" + preIndex).css("background-color", "#A1A194");
 				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 			}	
