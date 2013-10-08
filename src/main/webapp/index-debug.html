@@ -17,6 +17,7 @@
 		<script type="text/javascript">
 
 		var breakPoints = {};
+		var currentBreakPoint;
 
 		function test1(){
 			$("#runtimeEditor").animate({scrollTop: 20}, 800);
@@ -24,7 +25,14 @@
 
 		function setBreakPoint(e){
 			breakPoints[$(e).data("index")] = true;
-			$(e).css("background-color", "red");
+			var img = document.createElement("img");
+			$(img).attr("src", "icons/breakpoint.png");
+			$(img).attr("width", "20");
+			$(img).attr("height", "20");
+			var c = $(e).parent().children()[1];
+			$(c).css("background-color", "#eeaa99");
+			e.appendChild(img);
+			// $(e).css("background-image", "url(/path/to/image.jpg)");
 		}
 		
 		function test(){
@@ -66,6 +74,10 @@
 			editor.appendChild(newDiv);
 		}
 
+		function resume(){
+			breakPoints[currentBreakPoint] = null;
+		}
+
 		</script>
 	</head>
 
@@ -74,6 +86,7 @@
 			<div id="product_name">Cloud CNC <span class="product_release_name">&alpha;</span></div>
 			<div id="menuButtons">
 				<div id="btnStart" class="toolbar_button">Start</div>
+				<div id="btnResume" class="toolbar_button" onClick="resume()">Resume</div>
 			</div>
 		</div>
 		<div id="editor">

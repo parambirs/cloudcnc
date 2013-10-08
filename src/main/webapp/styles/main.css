@@ -144,8 +144,8 @@ body {
 
 #runtimeEditor{
 	float: right;
-	background-color: #A1A194;
-	color: #FFFFFA;
+	background-color: #ededed;
+	color: #333;
 }
 
 #editor div{

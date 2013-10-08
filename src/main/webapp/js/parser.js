@@ -141,6 +141,9 @@ var parser = (function() {
 				this.start(data.cncCode);
 			} else if(data.isToolSettings){
 				setSpeed(Math.abs(parseInt(data.toolSpeed) - 49) * 100000);				
+			} else if(data.type === "BreakPoint"){
+				for(var index=0; index<100000; index++){}
+				self.postMessage(data);
 			}
 		}
 	}; // end of return

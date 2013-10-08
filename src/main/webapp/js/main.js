@@ -92,6 +92,13 @@ function run(){
 	// Event handler for the run button
 	context.speedBreaker.addEventListener('message', function(e){
 
+		if(e.data.type === 'BreakPoint') {
+			if(breakPoints[currentIndex]){
+				context.codeRunner.postMessage({type: "BreakPoint"});
+				return;
+			}
+			
+		}
 		// console.log(e.data);
 		if(context.prevPoint) {
 			graphics.drawGhostTool(cncCtx, context.prevPoint);
@@ -101,21 +108,36 @@ function run(){
 				
 		// } else 
 		
-		if(e.data.type === 'parsingComplete') {
+		
+
+		if(e.data.type === 'parsingComplete' || e.data.type === 'BreakPoint') {
 			if(currentIndex < codeArray.length - 1) {
-				data.cncCode = codeArray[++currentIndex].trim();
+				if(breakPoints[currentIndex]){
+					currentBreakPoint = currentIndex;
+					graphics.drawTool(cncCtx, context.prevPoint);
+					context.codeRunner.postMessage({type: "BreakPoint"});
+					return;
+				} else {
+					data.cncCode = codeArray[++currentIndex].trim();
+					scrollPosition = scrollPosition + 20;
+				}
+				
 				context.codeRunner.postMessage(data);
-				$("#line-" + preIndex).css("background-color", "#A1A194");
-				$("#line-" + currentIndex).css("background-color", "#CECEBB");
+				$("#c-" + preIndex).css("background-color", "#ededed");
+				$("#c-" + currentIndex).css("background-color", "rgb(165, 189, 224)");
 				console.log('Now executing: ' + data.cncCode);
 				preIndex = currentIndex;
-				scrollPosition = scrollPosition + 20;
+				
 
 				if(scrollPosition > editorHeight){
-					$("#runtimeEditor").scrollTop(scrollValue);
+					if($("#runtimeEditor").scrollTop() < scrollValue){
+						$("#runtimeEditor").scrollTop(scrollValue);
+					}
+					
 					scrollValue += 20;
 				}
 			} else {
+				graphics.drawTool(cncCtx, context.prevPoint);
 				$("#line-" + preIndex).css("background-color", "#A1A194");
 				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 			}	
