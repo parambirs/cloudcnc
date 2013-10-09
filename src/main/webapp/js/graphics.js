@@ -74,34 +74,39 @@ var graphics = (function(){
 
 	return{
 
+		reset : function(){
+			cncCtx.restore();	
+		},
+
 		initSimulation: function(){
 			cnc = document.getElementById(context.getCncCanvasId());
 			cncCtx = cnc.getContext("2d");
-			tool = initTool('tools/tool.bmp');
+			tool = initTool(context.getToolImage());
 		},
 
 		drawBillet: function(billet){
-
+			cncCtx.save();
+			cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 			cncCtx.fillStyle = billet.properties.color;
 			cncCtx.fillRect(-billet.length, -billet.radius, billet.length, billet.radius*2);
 		},
 
-		drawTool: function(ctx, pos){
+		drawTool: function(pos){
 
 			// Z is horizontal & X is Vertical
 			var posZ = pos.z;
 			var posX = -pos.x - tool.height;
 
-			ctx.drawImage(tool.toolCanvas, posZ, posX);
+			cncCtx.drawImage(tool.toolCanvas, posZ, posX);
 		},
 
-		drawGhostTool: function(ctx, pos){
+		drawGhostTool: function(pos){
 			var posX = -pos.x - tool.height;
 			// console.log('ghost' + pos.x);
-			ctx.drawImage(tool.ghostCanvas, pos.z, posX);
+			cncCtx.drawImage(tool.ghostCanvas, pos.z, posX);
 			
 			// drawing inverted ghost			
-			 ctx.drawImage(tool.invertedGhostCanvas, pos.z, pos.x);
+			 cncCtx.drawImage(tool.invertedGhostCanvas, pos.z, pos.x);
 		}
 	};
 })();

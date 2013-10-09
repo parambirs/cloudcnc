@@ -10,8 +10,18 @@ body {
 	overflow: hidden;
 }
 
-.breakPoint(){
-	background-color: "blue";
+.breakPoint{
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffc4c4), color-stop(50%,#ffeeee), color-stop(100%,#ededed)); 
+}
+
+.breakPoint .breakPointArea{
+	background-image: url("../icons/breakpoint.png");
+	background-repeat: no-repeat;
+	background-size: 20px;	
+}
+
+.currentLine{
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#80AEB3), color-stop(50%,#90BEC3), color-stop(100%,#ededed)); 	
 }
 
 .breakPointArea{
@@ -141,10 +151,14 @@ body {
 	resize: none;
 	padding: 0px;*/
 }
+.row:hover {
+	background-color: #fff;
+}
 
-#runtimeEditor{
+.runtimeEditor{
 	float: right;
 	background-color: #ededed;
+	overflow: auto;
 	color: #333;
 }
 

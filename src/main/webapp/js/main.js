@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$("#btnStart").click(function (){
 
 		if($(this).text() === "Start"){
-			run();
+			executeProgram();
 			$(this).text("Stop");
 		} else {
 			stop();
@@ -21,6 +21,10 @@ $(document).ready(function(){
 
 	context.codeRunner = new Worker('js/parser.js');
 	context.speedBreaker = new Worker('js/speedbreaker.js');
+	context.codeRunner.addEventListener('message', function(e){
+		
+		context.speedBreaker.postMessage(e.data);
+	}, false);
 
 	$("#speedSlider").change(function(){
 		// console.log("slider value = " + $(this).val());
@@ -32,6 +36,114 @@ $(document).ready(function(){
 
 function stop(){
 	context.codeRunner && context.codeRunner.terminate();
+}
+
+function resume(){
+			programHandler.removeBreakPoint();
+}
+
+function setBreakPoint(e){
+	programHandler.setBreakPoint($(e).data("index"));
+	$(e).parent().addClass("breakPoint");
+}
+
+function createRunTimeEditor(codeLineArray){
+	
+	var editorWidth =  $("#editorDiv").width();
+	var editorHeight =  $("#editorDiv").height();
+	var lineNumbersWidth = $("#lineNumbers").width();
+
+	$("#lineNumbers").hide();
+	$("#editorDiv").hide();
+
+	var editor = document.getElementById('editor');
+	var runtimeEditor = document.createElement('div');
+
+	runtimeEditor.setAttribute('class', 'runtimeEditor');
+	
+	$(runtimeEditor).width(editorWidth + lineNumbersWidth);
+	$(runtimeEditor).height(editorHeight);
+
+	for(var index = 0; index < codeLineArray.length; index++){
+		var rowDiv = document.createElement('div');
+		rowDiv.setAttribute('id', 'row-' + index);
+		rowDiv.setAttribute('class', 'row');
+		
+		var breakPointDiv = document.createElement('div');
+		breakPointDiv.setAttribute('id', 'breakPointDiv-' + index);
+		
+		breakPointDiv.setAttribute('class', 'breakPointArea');
+		breakPointDiv.setAttribute('onClick', 'setBreakPoint(this)');
+		$(breakPointDiv).data("index", index);
+
+		rowDiv.appendChild(breakPointDiv);
+
+		var codeText = document.createElement('div');
+		codeText.setAttribute('id', 'codeText-' + index);
+		$(codeText).html(codeLineArray[index]);
+
+		rowDiv.appendChild(codeText);
+		runtimeEditor.appendChild(rowDiv);
+	}
+
+	editor.appendChild(runtimeEditor);
+}
+
+
+function executeProgram (){
+	var handler = programHandler;
+	var scrollPosition = 20;
+	var scrollValue = 20;
+	
+	handler.reset($('#editorDiv').val());
+
+	createRunTimeEditor(handler.getAllCodeLinesAsArray());
+
+	var billet = handler.getBillet();
+	
+	if(!billet) return;
+
+	graphics.initSimulation();
+	graphics.reset();
+	graphics.drawBillet(billet);
+
+	var codeLine = handler.getNextCodeLine();
+
+	console.log('Now executing: ' + codeLine.cncCode);
+
+	context.codeRunner.postMessage(codeLine);
+
+	context.speedBreaker.addEventListener('message', function(e){
+
+		// Draw tool
+		if(e.data.type === "toolDrawPoint") {
+			if(context.prevPoint) {
+				graphics.drawGhostTool(context.prevPoint);
+			}
+
+			graphics.drawTool(e.data.position);
+			context.prevPoint = e.data.position;
+			return;
+		}
+
+		if(e.data.type === 'BreakPoint' || handler.isBreakPoint()) {
+
+			if(handler.isBreakPoint()){
+				context.codeRunner.postMessage({type: "BreakPoint"});
+				return;
+			}
+		}
+
+		if(e.data.type === 'parsingComplete' || e.data.type === 'BreakPoint'){
+
+			try {
+				context.codeRunner.postMessage(handler.getNextCodeLine());	
+			} catch (err){
+				console.log(err);
+				return;
+			}
+		}		
+	});
 }
 
 function run(){
@@ -123,8 +235,8 @@ function run(){
 				}
 				
 				context.codeRunner.postMessage(data);
-				$("#c-" + preIndex).css("background-color", "#ededed");
-				$("#c-" + currentIndex).css("background-color", "rgb(165, 189, 224)");
+				$("#c-" + preIndex).removeClass("currentLine");
+				$("#c-" + currentIndex).addClass("currentLine");
 				console.log('Now executing: ' + data.cncCode);
 				preIndex = currentIndex;
 				
