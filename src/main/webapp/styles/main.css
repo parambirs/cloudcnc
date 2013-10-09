@@ -181,13 +181,13 @@ body {
 	float: right;
 	outline: none;
 	border: none;
-	color: #FFFFFA;
+	color: #555;
 	font-size: 14px;
 	font-family:"Courier New", Courier, monospace;    
 	text-transform:uppercase;
 	line-height: 20px;
  	resize: none;
-	background-color: #A1A194;
+	background-color: #ededed;
 	padding: 0px;
 	overflow: auto;
 }
@@ -195,7 +195,7 @@ body {
 #lineNumbers{
 	float: left;
 	overflow: auto;
-	background-color: #A1A194;
+	background-color: #ededed;
 	text-align: right;
 	color: #888;
 }
