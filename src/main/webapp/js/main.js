@@ -10,14 +10,23 @@ $(document).ready(function(){
 
 	$("#btnStart").click(function (){
 
-		if($(this).text() === "Start"){
+		if($(this).data("status") === "start"){
+			setRunning();
 			executeProgram();
-			$(this).text("Stop");
-		} else {
-			stop();
-			$(this).text("Start");
+		} else if ($(this).data("status") === "running") {
+			setStopped();
+			programHandler.pauseProgram();
+			// $(this).data("status", "pause");
+		} else if ($(this).data("status") === "paused") {						
+			resume();
+			setRunning();
+		} else if ($(this).data("status") === "stopped") {						
+			setRunning();
+			programHandler.resumeProgram();
 		}
 	});
+
+	
 
 	context.codeRunner = new Worker('js/parser.js');
 	context.speedBreaker = new Worker('js/speedbreaker.js');
@@ -33,6 +42,24 @@ $(document).ready(function(){
 	context.speedBreaker.postMessage({type: 'setSpeed', speed: $('#speedSlider').val()});
 
 });
+
+function setStopped(){
+	$("#btnStart").data("status", "stopped");
+	$("#btnStart").addClass("axnStart");
+	$("#btnStart").removeClass("axnPause");	
+}
+
+function setRunning(){
+	$("#btnStart").data("status", "running");
+	$("#btnStart").removeClass("axnStart");
+	$("#btnStart").addClass("axnPause");
+}
+
+function setPaused(){
+	$("#btnStart").data("status", "paused");
+	$("#btnStart").addClass("axnStart");
+	$("#btnStart").removeClass("axnPause");	
+}
 
 function stop(){
 	context.codeRunner && context.codeRunner.terminate();
@@ -142,6 +169,12 @@ function executeProgram (){
 		if(e.data.type === 'BreakPoint' || handler.isBreakPoint()) {
 
 			if(handler.isBreakPoint()){
+				if (handler.isProgramPaused()) {
+					setStopped();
+				} else {
+					setPaused();
+				}
+
 				context.codeRunner.postMessage({type: "BreakPoint"});
 				return;
 			}
@@ -178,120 +211,6 @@ function scrollScrollbar(currentLineNumber){
 		$("#runtimeEditor").scrollTop(scrollValue + config.homeProperties.lineHeight);
 }
 
-function run(){
-	test();
-	var cnc = document.getElementById(context.getCncCanvasId());
-	var cncCtx = cnc.getContext("2d");
-
-	delete context.prevPoint;
-	
-	graphics.initSimulation();
-
-	// codeRunner is a worker thread that parses the CNC program and executes the code
-	// context.codeRunner = new Worker('js/parser.js');
-
-	var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
-	var billet = getBillet(codeLines);
-
-	// to reset canvas
-
-	cnc.width = cnc.width;
-
-	cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
-	graphics.drawBillet(billet);
-
-	var code =  $('#editorDiv').val().toUpperCase();
-	var codeArray = code.split('\n');	
-
-	console.log('Number of lines of code: ' + codeArray.length);
-
-	var currentIndex = 0;
-	var preIndex = 0;
-	var editorHeight = $("#runtimeEditor").height();
-	var scrollPosition = 20;
-	var scrollValue = 20;
-	var data = {
-		isCncCode: true,
-		cncCode: codeArray[currentIndex].trim()
-	}	
-
-	console.log('Now executing: ' + data.cncCode);
-	context.codeRunner.postMessage(data);
-
-	// Event handler for the run button
-	context.codeRunner.addEventListener('message', function(e){
-		// if(e.data.type === 'toolDrawPoint' || e.data.type === 'parsingComplete') {
-			context.speedBreaker.postMessage(e.data);
-		// }
-		// else if(e.data.type === 'lineSimulationComplete'){
-		// 	if(currentIndex < codeArray.length - 1) {
-		// 		data.cncCode = codeArray[++currentIndex].trim();
-		// 		context.codeRunner.postMessage(data);
-		// 		console.log('Now executing: ' + data.cncCode);
-		// 	}			
-		// }
-
-	}, false);
-
-	// Event handler for the run button
-	context.speedBreaker.addEventListener('message', function(e){
-
-		if(e.data.type === 'BreakPoint') {
-			if(breakPoints[currentIndex]){
-				context.codeRunner.postMessage({type: "BreakPoint"});
-				return;
-			}
-			
-		}
-		// console.log(e.data);
-		if(context.prevPoint) {
-			graphics.drawGhostTool(cncCtx, context.prevPoint);
-		}
-
-		// if(e.data.type === 'toolDrawPointReady') {
-				
-		// } else 
-		
-		
-
-		if(e.data.type === 'parsingComplete' || e.data.type === 'BreakPoint') {
-			if(currentIndex < codeArray.length - 1) {
-				if(breakPoints[currentIndex]){
-					currentBreakPoint = currentIndex;
-					graphics.drawTool(cncCtx, context.prevPoint);
-					context.codeRunner.postMessage({type: "BreakPoint"});
-					return;
-				} else {
-					data.cncCode = codeArray[++currentIndex].trim();
-					scrollPosition = scrollPosition + 20;
-				}
-				
-				context.codeRunner.postMessage(data);
-				$("#c-" + preIndex).removeClass("currentLine");
-				$("#c-" + currentIndex).addClass("currentLine");
-				console.log('Now executing: ' + data.cncCode);
-				preIndex = currentIndex;
-				
-
-				if(scrollPosition > editorHeight){
-					if($("#runtimeEditor").scrollTop() < scrollValue){
-						$("#runtimeEditor").scrollTop(scrollValue);
-					}
-					
-					scrollValue += 20;
-				}
-			} else {
-				graphics.drawTool(cncCtx, context.prevPoint);
-				$("#line-" + preIndex).css("background-color", "#A1A194");
-				$("#runtimeEditor").animate({scrollTop : 0}, 700);
-			}	
-		} else {
-			graphics.drawTool(cncCtx, e.data.position);
-			context.prevPoint = e.data.position;
-		}
-
-	}, false);
-}
 
 // input: array of code lines
 // returns: Billet object {radius: value, length: value}

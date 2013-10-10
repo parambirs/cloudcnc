@@ -14,82 +14,13 @@
 		<script src='js/graphics.js'></script>
 		<script src='js/config.js'></script>
 		<script src='js/cncProgram.js'></script>
-
-		<script type="text/javascript">
-
-		var breakPoints = {};
-		var currentBreakPoint;
-
-		function test1(){
-			$("#runtimeEditor").animate({scrollTop: 20}, 800);
-		}
-
-		// function setBreakPoint2(e){
-			
-		// 	// $(e).addClass("breakPoint");
-
-		// 	breakPoints[$(e).data("index")] = true;
-		// 	// var img = document.createElement("img");
-		// 	// $(img).attr("src", "icons/breakpoint.png");
-		// 	// $(img).attr("width", "20");
-		// 	// $(img).attr("height", "20");
-		// 	var c = $(e).parent();//.children()[1];
-		// 	$(c).addClass("breakPoint");
-		// 	// e.appendChild(img);
-		// 	// $(e).css("background-image", "url(/path/to/image.jpg)");
-		// }
-		
-		// function test(){
-
-			// var codeLines = $('#editorDiv').val().toUpperCase().split('\n');
-			// var editorWidth =  $("#editorDiv").width();
-			// var editorHeight =  $("#editorDiv").height();
-			
-			// $("#lineNumbers").hide();
-			// $("#editorDiv").hide();
-			// var editor = document.getElementById('editor');
-			// var newDiv = document.createElement('div');
-			// newDiv.setAttribute('id', 'runtimeEditor');
-			// // $(newDiv).css('overflow', 'auto');
-			// $(newDiv).width(editorWidth + 30);
-			// $(newDiv).height(editorHeight);
-
-			// for(var index = 0; index < codeLines.length; index++){
-			// 	var rowDiv = document.createElement('div');
-			// 	rowDiv.setAttribute('id', 'row-' + index);
-				
-			// 	var breakPointDiv = document.createElement('div');
-			// 	breakPointDiv.setAttribute('id', 'breakPointDiv-' + index);
-				
-			// 	breakPointDiv.setAttribute('class', 'breakPointArea');
-			// 	breakPointDiv.setAttribute('onClick', 'setBreakPoint(this)');
-			// 	$(breakPointDiv).data("index", index);
-			// 	rowDiv.appendChild(breakPointDiv);
-
-			// 	var c = document.createElement('div');
-			// 	c.setAttribute('id', 'c-' + index);
-			// 	$(c).html(codeLines[index]);
-
-			// 	rowDiv.appendChild(c);
-
-			// 	// $(cnc).html("<ol start='" + (index+1) + "''><li>" + codeLines[index] + "</li></ol>");
-			// 	newDiv.appendChild(rowDiv);
-			// }
-			// // newDiv.appendChild(ol);
-			// editor.appendChild(newDiv);
-		// }
-
-		
-
-		</script>
 	</head>
 
 	<body>
 		<div id="toolbar">
 			<div id="product_name">Cloud CNC <span class="product_release_name">&alpha;</span></div>
 			<div id="menuButtons">
-				<div id="btnStart" class="toolbar_button">Start</div>
-				<div id="btnResume" class="toolbar_button" onClick="resume()">Resume</div>
+				<div id="btnStart" class="toolbar_button axnStart" data-status="start">&nbsp;</div>				
 			</div>
 		</div>
 		<div id="editor">

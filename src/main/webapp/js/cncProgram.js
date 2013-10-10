@@ -5,6 +5,7 @@ var programHandler = (function(){
 	var currentLine = -1;
 	var billet;
 	var breakPoints = {}
+	var isStopped = false;
 
 	// input: array of code lines
 	// returns: Billet object {radius: value, length: value}
@@ -89,7 +90,7 @@ var programHandler = (function(){
 		},
 
 		isBreakPoint : function(){
-			return breakPoints[currentLine];
+			return breakPoints[currentLine] || isStopped;
 		},
 
 		setBreakPoint : function(index){
@@ -106,6 +107,19 @@ var programHandler = (function(){
 
 		getCurrentLine : function(){
 			return currentLine;
+		},
+
+		pauseProgram : function(){
+			isStopped = true;
+		},
+
+		resumeProgram : function(){
+			isStopped = false;
+		},
+
+		isProgramPaused : function(){
+			return isStopped;
 		}
+
 	};
 })();
