@@ -1,6 +1,6 @@
 $(document).ready(function(){ 
-	// $( "#editorDiv").load( "examples/simple.cnc" );
-	$( "#editorDiv").load( "examples/complete.cnc" );
+	$( "#editorDiv").load( "examples/simple.cnc" );
+	// $( "#editorDiv").load( "examples/complete.cnc" );
 
 	initScreen();
 
@@ -45,6 +45,12 @@ $(document).ready(function(){
 
 function setStopped(){
 	$("#btnStart").data("status", "stopped");
+	$("#btnStart").addClass("axnStart");
+	$("#btnStart").removeClass("axnPause");	
+}
+
+function setReset(){
+	$("#btnStart").data("status", "start");
 	$("#btnStart").addClass("axnStart");
 	$("#btnStart").removeClass("axnPause");	
 }
@@ -194,6 +200,7 @@ function executeProgram (){
 
 			} catch (err){
 				var currentLine = handler.getCurrentLine();
+				// setReset();
 				$("#row-" + (currentLine -1)).removeClass("currentLine");
 				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 				console.log(err);
