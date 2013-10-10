@@ -60,6 +60,7 @@ function createRunTimeEditor(codeLineArray){
 	var runtimeEditor = document.createElement('div');
 
 	runtimeEditor.setAttribute('class', 'runtimeEditor');
+	runtimeEditor.setAttribute('id', 'runtimeEditor');
 	
 	$(runtimeEditor).width(editorWidth + lineNumbersWidth);
 	$(runtimeEditor).height(editorHeight);
@@ -80,7 +81,7 @@ function createRunTimeEditor(codeLineArray){
 
 		var codeText = document.createElement('div');
 		codeText.setAttribute('id', 'codeText-' + index);
-		$(codeText).html(codeLineArray[index]);
+		$(codeText).html(highlight(codeLineArray[index]));
 
 		rowDiv.appendChild(codeText);
 		runtimeEditor.appendChild(rowDiv);
@@ -89,6 +90,18 @@ function createRunTimeEditor(codeLineArray){
 	editor.appendChild(runtimeEditor);
 }
 
+
+function highlight(code){
+	var text = code.replace('G', "<span id='gcode'>G</span>");
+	text = text.replace('M', "<span id='gcode'>M</span>");
+	text = text.replace('W', "<span id='gcode'>W</span>");
+	text = text.replace('U', "<span id='gcode'>U</span>");
+	text = text.replace('F', "<span id='gcode'>F</span>");
+	text = text.replace('X', "<span id='variables'>X</span>");
+	text = text.replace('Z', "<span id='variables'>Z</span>");
+	text = text.replace('R', "<span id='variables'>R</span>");
+	return text;
+}
 
 function executeProgram (){
 	var handler = programHandler;
@@ -137,13 +150,32 @@ function executeProgram (){
 		if(e.data.type === 'parsingComplete' || e.data.type === 'BreakPoint'){
 
 			try {
-				context.codeRunner.postMessage(handler.getNextCodeLine());	
+				context.codeRunner.postMessage(handler.getNextCodeLine());
+
+				var currentLine = handler.getCurrentLine();
+
+				$("#row-" + (currentLine -1)).removeClass("currentLine");
+				$("#row-" + currentLine).addClass("currentLine");
+
+				scrollScrollbar(currentLine);
+
 			} catch (err){
+				var currentLine = handler.getCurrentLine();
+				$("#row-" + (currentLine -1)).removeClass("currentLine");
+				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 				console.log(err);
 				return;
 			}
 		}		
 	});
+}
+
+function scrollScrollbar(currentLineNumber){
+	var topDistance = currentLineNumber * config.homeProperties.lineHeight;
+	var editorHeight = $("#editorDiv").height();
+	var scrollValue = topDistance - editorHeight;
+	if(scrollValue > $("#runtimeEditor").scrollTop())
+		$("#runtimeEditor").scrollTop(scrollValue + config.homeProperties.lineHeight);
 }
 
 function run(){

@@ -4,7 +4,7 @@ var programHandler = (function(){
 	var codeLines;
 	var currentLine = -1;
 	var billet;
-	var breakPoints = {1: true}
+	var breakPoints = {}
 
 	// input: array of code lines
 	// returns: Billet object {radius: value, length: value}
@@ -63,7 +63,7 @@ var programHandler = (function(){
 			currentLine = -1;
 			program = newProgram;
 			codeLines = program.toUpperCase().split('\n');
-			
+
 			try {
 				billet = getBillet(codeLines);	
 			} catch (e) {
@@ -102,6 +102,10 @@ var programHandler = (function(){
 
 		getAllCodeLinesAsArray : function(){
 			return codeLines;
+		},
+
+		getCurrentLine : function(){
+			return currentLine;
 		}
 	};
 })();

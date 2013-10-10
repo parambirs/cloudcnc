@@ -5,7 +5,8 @@ var config = (function(){
 			toolbarHeight: 40,
 			footerHeight: 30,
 			editorWidth: 300,
-			lineNumbersWidth: 30
+			lineNumbersWidth: 30,
+			lineHeight: 20
 		},
 
 		billetProperties: {
