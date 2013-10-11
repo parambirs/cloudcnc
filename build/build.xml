@@ -26,6 +26,7 @@
 		<include name="cloudcnc.js"/>
 		<include name="gcodes.js"/>
 		<include name="parser.js"/>
+		<include name="speedbreaker.js"/>
 	</fileset>
 
 	<target name="clean" description="Cleans the war folder">
@@ -34,7 +35,7 @@
   		</delete>
 	</target>
 
-	<target name="copyjars" description="Copies the App Engine JARs to the WAR.">
+	<target name="copyjars" depends="clean" description="Copies the App Engine JARs to the WAR.">
 		<mkdir dir="war/WEB-INF/lib" />
 		<copy todir="war/WEB-INF/lib" flatten="true">
 			<fileset dir="${sdk.dir}/lib/user">
@@ -60,12 +61,20 @@
 	    </delete>
 
 		<!-- Compress using YUI Compressor -->
-		<yuicompressor todir="war/js" deleteOriginal="true">
+		<ant-yui-compressor todir="war/js" deleteOriginal="true">
 			<fileset refid="js.minify.files"/>
 			<mapper type="glob" from="*.js" to="*-min.js"/>
-		</yuicompressor>
+		</ant-yui-compressor>
 		<replace dir="war/js" token="parser.js" value="parser-min.js"/>
 		<replace dir="war/js" token="gcodes.js" value="gcodes-min.js"/>
+		<replace dir="war/js" token="speedbreaker.js" value="speedbreaker-min.js"/>
+
+		<ant-yui-compressor todir="war/styles" deleteOriginal="true">
+			<fileset dir="war/styles">
+				<include name="main.css"/>
+			</fileset>
+			<mapper type="glob" from="*.css" to="*-min.css"/>
+		</ant-yui-compressor>
 	</target>
 
 	<target name="runserver" depends="compile" description="Starts the development server">
