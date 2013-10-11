@@ -19,6 +19,7 @@
     	<include name="config.js" />
 		<include name="graphics.js" />
 		<include name="main.js" />
+		<include name="cncProgram.js" />
 	</fileset>
 
 	<!-- Files that are minified -->
@@ -77,7 +78,11 @@
 		</ant-yui-compressor>
 	</target>
 
-	<target name="runserver" depends="compile" description="Starts the development server">
+	<target name="runserver" depends="compress" description="Starts the development server">
+		<dev_appserver war="war"/>
+	</target>
+
+	<target name="runserverdev" depends="compile" description="Starts the development server">
 		<dev_appserver war="war"/>
 	</target>
 
