@@ -80,6 +80,12 @@ function setBreakPoint(e){
 	$(e).parent().addClass("breakPoint");
 }
 
+function removeRunTimeEditor() {
+	$("#runtimeEditor").remove();
+	$("#lineNumbers").show();
+	$("#editorDiv").show();
+}
+
 function createRunTimeEditor(codeLineArray){
 	
 	$("#runtimeEditor").remove();
@@ -142,7 +148,7 @@ function executeProgram (){
 	// fire google analytics event tracking
 	ga('send', 'event', 'Simulation', 'Run');
 	
-	//graphics.clear();
+	graphics.clear();
 	context.codeRunner.postMessage({type: 'reset'});
 
 	var handler = programHandler;
@@ -210,7 +216,10 @@ function executeProgram (){
 				var currentLine = handler.getCurrentLine();
 				setReset();
 				$("#row-" + (currentLine -1)).removeClass("currentLine");
-				$("#runtimeEditor").animate({scrollTop : 0}, 700);
+				$("#runtimeEditor").animate({scrollTop : 0}, 700, function() {
+					removeRunTimeEditor();
+				});
+				
 				console.log(err);
 				return;
 			}

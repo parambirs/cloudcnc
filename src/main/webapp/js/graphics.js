@@ -76,6 +76,7 @@ var graphics = (function(){
 
 		reset : function(){
 			cncCtx.restore();	
+			delete context.prevPoint;
 		},
 
 		initSimulation: function(){
