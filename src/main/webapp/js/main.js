@@ -26,6 +26,10 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#btnStop").click(function (){
+		programHandler.terminateProgram();
+		terminateProgram();
+	});
 	
 
 	context.codeRunner = new Worker('js/parser.js');
@@ -144,6 +148,15 @@ function highlight(code){
 	return text;
 }
 
+function terminateProgram() {
+	var currentLine = programHandler.getCurrentLine();
+	setReset();
+	$("#row-" + (currentLine -1)).removeClass("currentLine");
+	$("#runtimeEditor").animate({scrollTop : 0}, 700, function() {
+		removeRunTimeEditor();
+	});
+}
+
 function executeProgram (){
 	// fire google analytics event tracking
 	ga('send', 'event', 'Simulation', 'Run');
@@ -174,6 +187,11 @@ function executeProgram (){
 	context.codeRunner.postMessage(codeLine);
 
 	context.speedBreaker.addEventListener('message', function(e){
+
+
+		if(handler.isTerminated()) {
+			return;
+		}
 
 		// Draw tool
 		if(e.data.type === "toolDrawPoint") {
@@ -213,14 +231,7 @@ function executeProgram (){
 				scrollScrollbar(currentLine);
 
 			} catch (err){
-				var currentLine = handler.getCurrentLine();
-				setReset();
-				$("#row-" + (currentLine -1)).removeClass("currentLine");
-				$("#runtimeEditor").animate({scrollTop : 0}, 700, function() {
-					removeRunTimeEditor();
-				});
-				
-				console.log(err);
+				terminateProgram();
 				return;
 			}
 		}		

@@ -6,6 +6,7 @@ var programHandler = (function(){
 	var billet;
 	var breakPoints = {}
 	var isStopped = false;
+	var isTerminated = false;
 
 	// input: array of code lines
 	// returns: Billet object {radius: value, length: value}
@@ -61,6 +62,7 @@ var programHandler = (function(){
 		
 		reset: function(newProgram){
 			if(!newProgram) return null;
+			isTerminated = false;
 			currentLine = -1;
 			program = newProgram;
 			codeLines = program.toUpperCase().split('\n');
@@ -115,6 +117,14 @@ var programHandler = (function(){
 
 		resumeProgram : function(){
 			isStopped = false;
+		},
+
+		terminateProgram: function() {
+			isTerminated = true;
+		},
+
+		isTerminated: function() {
+			return isTerminated;
 		},
 
 		isProgramPaused : function(){
