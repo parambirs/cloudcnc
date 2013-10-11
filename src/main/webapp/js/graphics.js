@@ -107,6 +107,12 @@ var graphics = (function(){
 			
 			// drawing inverted ghost			
 			 cncCtx.drawImage(tool.invertedGhostCanvas, pos.z, pos.x);
+		},
+
+		clear: function() {
+			if(cnc) {
+				cnc.width = cnc.width;
+			}
 		}
 	};
 })();

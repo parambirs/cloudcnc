@@ -82,6 +82,8 @@ function setBreakPoint(e){
 
 function createRunTimeEditor(codeLineArray){
 	
+	$("#runtimeEditor").remove();
+
 	var editorWidth =  $("#editorDiv").width();
 	var editorHeight =  $("#editorDiv").height();
 	var lineNumbersWidth = $("#lineNumbers").width();
@@ -140,6 +142,9 @@ function executeProgram (){
 	// fire google analytics event tracking
 	ga('send', 'event', 'Simulation', 'Run');
 	
+	//graphics.clear();
+	context.codeRunner.postMessage({type: 'reset'});
+
 	var handler = programHandler;
 	var scrollPosition = 20;
 	var scrollValue = 20;
@@ -203,7 +208,7 @@ function executeProgram (){
 
 			} catch (err){
 				var currentLine = handler.getCurrentLine();
-				// setReset();
+				setReset();
 				$("#row-" + (currentLine -1)).removeClass("currentLine");
 				$("#runtimeEditor").animate({scrollTop : 0}, 700);
 				console.log(err);

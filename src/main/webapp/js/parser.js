@@ -77,6 +77,13 @@ var parser = (function() {
 
 	return {
 	
+		reset: function() {
+			prevX = 200; 
+			prevZ=600;
+			prevR = 0;
+			prevCNCCode = undefined;
+			fromPoint = {x: prevX, z: prevZ};
+		},
 		start : function (code){
 			// for(var i = 0; i < this.toolSpeed; i++);
 			// self.postMessage(this.toolSpeed);
@@ -144,6 +151,8 @@ var parser = (function() {
 			} else if(data.type === "BreakPoint"){
 				for(var index=0; index<100000; index++){}
 				self.postMessage(data);
+			} else if(data.type === "reset") {
+				this.reset();
 			}
 		}
 	}; // end of return
