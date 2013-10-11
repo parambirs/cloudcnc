@@ -32,10 +32,16 @@ $(document).ready(function(){
 	});
 	
 
+	// context.codeRunner = new Worker('js/parser.js');
+	// context.speedBreaker = new Worker('js/speedbreaker.js');
+
+
+});
+
+function initWorkers(){
 	context.codeRunner = new Worker('js/parser.js');
 	context.speedBreaker = new Worker('js/speedbreaker.js');
 	context.codeRunner.addEventListener('message', function(e){
-		
 		context.speedBreaker.postMessage(e.data);
 	}, false);
 
@@ -43,9 +49,9 @@ $(document).ready(function(){
 		// console.log("slider value = " + $(this).val());
 		context.speedBreaker.postMessage({type: 'setSpeed', speed: $(this).val()});
 	});
+	
 	context.speedBreaker.postMessage({type: 'setSpeed', speed: $('#speedSlider').val()});
-
-});
+}
 
 function setStopped(){
 	$("#btnStart").data("status", "stopped");
@@ -57,12 +63,14 @@ function setReset(){
 	$("#btnStart").data("status", "start");
 	$("#btnStart").addClass("axnStart");
 	$("#btnStart").removeClass("axnPause");	
+	$("#btnStop").removeClass("axnStop");
 }
 
 function setRunning(){
 	$("#btnStart").data("status", "running");
 	$("#btnStart").removeClass("axnStart");
 	$("#btnStart").addClass("axnPause");
+	$("#btnStop").addClass("axnStop");
 }
 
 function setPaused(){
@@ -162,6 +170,7 @@ function executeProgram (){
 	ga('send', 'event', 'Simulation', 'Run');
 	
 	graphics.clear();
+	initWorkers();
 	context.codeRunner.postMessage({type: 'reset'});
 
 	var handler = programHandler;
@@ -190,6 +199,8 @@ function executeProgram (){
 
 
 		if(handler.isTerminated()) {
+			context.speedBreaker.terminate();
+			context.codeRunner.terminate();
 			return;
 		}
 

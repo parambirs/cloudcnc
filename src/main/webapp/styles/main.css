@@ -105,7 +105,7 @@ body {
 	cursor: pointer;
 	float: right;
 	height: 100%;
-	width: 150px;
+	width: 200px;
 	margin-right: 20px;
 	text-align: right;
 	/*margin-right: 30px;*/
@@ -118,10 +118,10 @@ body {
 .axnStart:before{
 	font-family: iconFont;
 	content: "\f04b   Start";
-	text-align: center;
 	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
 	color:#444;
 	line-height: 40px;
+	
 }
 
 #socialIcons:before{
@@ -142,10 +142,10 @@ body {
 	float: left;
 	font-family: iconFont;
 	content: "\f04c   Pause";
-	text-align: center;
 	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
 	color:#444;
 	line-height: 40px;
+	
 }
 
 .axnStop:hover:before{
@@ -156,7 +156,6 @@ body {
 	float: left;
 	font-family: iconFont;
 	content: "\f04d   Stop";
-	text-align: center;
 	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
 	color:#444;
 	line-height: 40px;
@@ -164,9 +163,10 @@ body {
 
 
 .toolbar_button{
-	/*width: 70px;*/
+	width: 70px;
+
 	float: left;
-	/*text-align: center;*/
+	text-align: left;
 	/*color: #FFFFFF;*/
 	/*font-family: Arial;*/
 	/*font-size: 15px;*/

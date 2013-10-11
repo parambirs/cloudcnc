@@ -75,6 +75,7 @@ var graphics = (function(){
 	return{
 
 		reset : function(){
+			console.log('graphics: reset called');
 			cncCtx.restore();	
 			delete context.prevPoint;
 		},

@@ -62,8 +62,13 @@ var programHandler = (function(){
 		
 		reset: function(newProgram){
 			if(!newProgram) return null;
+
+			console.log('cncProgram: reset called');
 			isTerminated = false;
+			isStopped = false;
+			breakPoints = [];
 			currentLine = -1;
+			
 			program = newProgram;
 			codeLines = program.toUpperCase().split('\n');
 
