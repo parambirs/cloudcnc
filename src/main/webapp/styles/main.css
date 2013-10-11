@@ -295,9 +295,8 @@ body {
 	overflow: auto;
 	background: -webkit-linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
 	background: -moz-linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
-	background: -o-linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
 	background: -ms-linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
-	background: linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
+	background: -o-linear-gradient(0, #f8f8f8, #f8f8f8 267px, #ccc);
 }
 
 #lineNumbers{
