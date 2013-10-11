@@ -137,6 +137,9 @@ function highlight(code){
 }
 
 function executeProgram (){
+	// fire google analytics event tracking
+	ga('send', 'event', 'Simulation', 'Run');
+	
 	var handler = programHandler;
 	var scrollPosition = 20;
 	var scrollValue = 20;
