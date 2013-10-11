@@ -31,7 +31,9 @@ $(document).ready(function(){
 		terminateProgram();
 	});
 	
-
+	$("#socialIcons").click(function() {
+		window.open("https://www.facebook.com/cloudcnc");
+	})
 	// context.codeRunner = new Worker('js/parser.js');
 	// context.speedBreaker = new Worker('js/speedbreaker.js');
 

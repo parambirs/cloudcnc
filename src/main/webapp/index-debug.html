@@ -27,13 +27,25 @@
 	</head>
 
 	<body>
+		<!-- Code for facebook button -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=70349459317";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		<!-- End code for facebook button -->
+
 		<div id="toolbar">
 			<div id="product_name">Cloud CNC <span class="product_release_name">&alpha;</span></div>
 			<div id="menuButtons">
 				<div id="btnStart" class="toolbar_button axnStart" data-status="start">&nbsp;</div>
 				<div id="btnStop" class="toolbar_button" data-status="stop">&nbsp;</div>
-				<div id="socialIcons"></div>
+				
 			</div>
+			<div id="socialIcons"></div>
 		</div>
 		<div id="editor">
 			<div id="lineNumbers"></div>
@@ -46,7 +58,7 @@
 			<div id="email" class="AppleFont">admin@cloudcnc.in</div>
 
 			<div id="speedDiv" class="AppleFont">Tool Speed<input id="speedSlider" type="range" min="1" max="10" value="8" step="1" ></div>
-			
+			<div id="fb-like-button" class="fb-like" data-href="https://www.facebook.com/cloudcnc" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="false" data-send="false"></div>
 		</div>
 		<img src="tools/tool.bmp" style="display: none" />
 	</body>
