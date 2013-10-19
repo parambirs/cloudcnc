@@ -26,6 +26,12 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#editorDiv").scroll(function(){
+		$("#lineNumbers").scrollTop ($("#editorDiv").scrollTop());
+	});
+
+
+
 	$("#btnStop").click(function (){
 		programHandler.terminateProgram();
 		terminateProgram();
@@ -94,6 +100,19 @@ function setBreakPoint(e){
 	$(e).parent().addClass("breakPoint");
 }
 
+function setBreakPointTemp(e){
+	
+	if($(e).data("isBreakPoint")){
+	 	$(e).removeClass("breakPoint");
+	 	programHandler.removeBreakPoint($(e).data("index"));
+	 	$(e).data("isBreakPoint", false);
+	} else {
+		$(e).addClass("breakPoint");
+		programHandler.setBreakPoint($(e).data("index"));
+		$(e).data("isBreakPoint", true);
+	}
+}
+
 function removeRunTimeEditor() {
 	$("#runtimeEditor").remove();
 	$("#lineNumbers").show();
@@ -108,7 +127,7 @@ function createRunTimeEditor(codeLineArray){
 	var editorHeight =  $("#editorDiv").height();
 	var lineNumbersWidth = $("#lineNumbers").width();
 
-	$("#lineNumbers").hide();
+	// $("#lineNumbers").hide();
 	$("#editorDiv").hide();
 
 	var editor = document.getElementById('editor');
@@ -117,7 +136,7 @@ function createRunTimeEditor(codeLineArray){
 	runtimeEditor.setAttribute('class', 'runtimeEditor');
 	runtimeEditor.setAttribute('id', 'runtimeEditor');
 	
-	$(runtimeEditor).width(editorWidth + lineNumbersWidth);
+	$(runtimeEditor).width(editorWidth);
 	$(runtimeEditor).height(editorHeight);
 
 	for(var index = 0; index < codeLineArray.length; index++){
@@ -125,14 +144,14 @@ function createRunTimeEditor(codeLineArray){
 		rowDiv.setAttribute('id', 'row-' + index);
 		rowDiv.setAttribute('class', 'row');
 		
-		var breakPointDiv = document.createElement('div');
-		breakPointDiv.setAttribute('id', 'breakPointDiv-' + index);
+		// var breakPointDiv = document.createElement('div');
+		// breakPointDiv.setAttribute('id', 'breakPointDiv-' + index);
 		
-		breakPointDiv.setAttribute('class', 'breakPointArea');
-		breakPointDiv.setAttribute('onClick', 'setBreakPoint(this)');
-		$(breakPointDiv).data("index", index);
+		// breakPointDiv.setAttribute('class', 'breakPointArea');
+		// breakPointDiv.setAttribute('onClick', 'setBreakPoint(this)');
+		// $(breakPointDiv).data("index", index);
 
-		rowDiv.appendChild(breakPointDiv);
+		// rowDiv.appendChild(breakPointDiv);
 
 		var codeText = document.createElement('div');
 		codeText.setAttribute('id', 'codeText-' + index);
@@ -143,6 +162,12 @@ function createRunTimeEditor(codeLineArray){
 	}
 
 	editor.appendChild(runtimeEditor);
+
+	$("#runtimeEditor").scroll(function(){
+		$("#lineNumbers").scrollTop ($("#runtimeEditor").scrollTop());
+	});
+
+	$("#lineNumbers").scrollTop(0);
 }
 
 
@@ -164,11 +189,12 @@ function terminateProgram() {
 	$("#row-" + (currentLine -1)).removeClass("currentLine");
 	$("#runtimeEditor").animate({scrollTop : 0}, 700, function() {
 		removeRunTimeEditor();
+		$("#editorDiv").scrollTop(0);
 	});
 }
 
 function executeProgram (){
-	// fire google analytics event tracking
+	// fire google analytics event trackin
 	ga('send', 'event', 'Simulation', 'Run');
 	
 	graphics.clear();
@@ -358,5 +384,26 @@ function initScreen(){
 	cnc.width = (windowWidth - config.homeProperties.editorWidth);
 	var simulator = document.getElementById('simulator');
 	simulator.appendChild(cnc);
+
+
+	//Adding breakpoint divs
+	var tempDiv;
+	for(var i = 0; i < 200; i++){
+
+		tempDiv = document.createElement("div");
+
+		$(tempDiv).html((i+1) + "&nbsp;");
+		$(tempDiv).addClass("lineBreakPointDiv");
+
+		$(tempDiv).data("index", i);
+		$(tempDiv).on("click", function(){
+			console.log($(this).data("index"));
+			setBreakPointTemp(this);
+			// $(this).addClass("breakPointArea");
+		});
+
+		document.getElementById("lineNumbers").appendChild(tempDiv);
+
+	}
 
 }

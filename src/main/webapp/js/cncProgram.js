@@ -11,7 +11,6 @@ var programHandler = (function(){
 	// input: array of code lines
 	// returns: Billet object {radius: value, length: value}
 	// throws: exception if [BILLET, X\d or Z\d not found
-
 	var getBillet = function (codeArray){
 	
 		var billetLine;
@@ -66,7 +65,7 @@ var programHandler = (function(){
 			console.log('cncProgram: reset called');
 			isTerminated = false;
 			isStopped = false;
-			breakPoints = [];
+			// breakPoints = [];
 			currentLine = -1;
 			
 			program = newProgram;
@@ -97,6 +96,7 @@ var programHandler = (function(){
 		},
 
 		isBreakPoint : function(){
+
 			return breakPoints[currentLine] || isStopped;
 		},
 

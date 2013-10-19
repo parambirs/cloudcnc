@@ -109,8 +109,12 @@ var parser = (function() {
 				
 				//setting default values
 				statement.cncCode = statement.cncCode || prevCNCCode;
-				statement.X = statement.X || prevX;
-				statement.Z = statement.Z || prevZ;
+
+				prevX = statement.U ? (parseInt(statement.U) + prevX): prevX;
+				prevZ = statement.W ? (parseInt(statement.W) + prevZ): prevZ;
+				
+				statement.X = statement.X || prevX; //statement.U ? (statement.U + prevX) : prevX;
+				statement.Z = statement.Z || prevZ; //statement.W ? (statement.W + prevZ) : prevZ;
 				statement.R = statement.R || prevR;
 
 				// throw ("Statement object: " + statement.toString());

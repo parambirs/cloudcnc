@@ -15,18 +15,21 @@ body {
 	overflow: hidden;
 }
 
-.breakPoint{
-	background: -webkit-linear-gradient(left, #E9BEBA, #F1EAEA 50%, #ededed);
-	background: -moz-linear-gradient(left, #E9BEBA, #F1EAEA 50%, #ededed);
-	background: -o-linear-gradient(left, #E9BEBA, #F1EAEA 50%, #ededed);
-	background: -ms-linear-gradient(left, #E9BEBA, #F1EAEA 50%, #ededed);
-	background: linear-gradient(left, #E9BEBA, #F1EAEA 50%, #ededed); 
+.lineBreakPointDiv{
+	line-height: 20px;	
+	cursor: pointer;
 }
 
-.breakPoint .breakPointArea{
-	background-image: url("../icons/stop.png");
+.breakPoint{
+	/*background-color: #EEaa88;*/
+	background: -webkit-linear-gradient(left, #0B64C4 14%, #efefef 14%)
+}
+
+.breakPointArea{
+
+	/*background-image: url("../icons/stop.png");
 	background-repeat: no-repeat;
-	background-size: 20px;	
+	background-size: 20px;	*/
 }
 
 #gcode {
@@ -37,11 +40,12 @@ body {
 	color: rgb(142, 187, 146);	
 }
 .currentLine{
-	background: -webkit-linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed);
+	background-color: #E8EEFF;
+	/*background: -webkit-linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed);
 	background: -moz-linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed);
 	background: -o-linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed);
 	background: -ms-linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed);
-	background: linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed); 
+	background: linear-gradient(left, #C8CCCC, #F1F1F1 50%, #ededed); */
 }
 
 .currentLine .breakPointArea{
@@ -250,16 +254,18 @@ body {
 	color: rgb(167, 118, 163);
 }
 .row:hover {
-	background: -webkit-linear-gradient(left, #fff, #efefef 50%, #ededed);
+	background-color: #fff;
+	/*background: -webkit-linear-gradient(left, #fff, #efefef 50%, #ededed);
 	background: -moz-linear-gradient(left, #fff, #efefef 50%, #ededed);
 	background: -o-linear-gradient(left, #fff, #efefef 50%, #ededed);
 	background: -ms-linear-gradient(left, #fff, #efefef 50%, #ededed);
-	background: linear-gradient(left, #fff, #efefef 50%, #ededed); 	
+	background: linear-gradient(left, #fff, #efefef 50%, #ededed); 	*/
 }
 
 .runtimeEditor{
 	float: right;
-	background-color: #ededed;
+	/*background-color: #ededed;*/
+	background-color: "red";
 	overflow: auto;
 	color: #333;
 }
@@ -301,10 +307,10 @@ body {
 
 #lineNumbers{
 	float: left;
-	overflow: auto;
+	overflow: hidden;
 	background-color: #f8f8f8;
 	text-align: right;
-	color: #888;
+	color: #C0C0C0;
 }
 
 #simulator{
