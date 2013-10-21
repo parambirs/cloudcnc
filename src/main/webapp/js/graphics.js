@@ -5,6 +5,9 @@ var graphics = (function(){
 	var cnc;
 	var cncCtx;
 	var tool;
+	var edgePositions = [];
+	var billetLength;
+	var edgeHighlightColor;
 
 	var initTool = function (imgPath){
 		//Creating img tag
@@ -87,13 +90,27 @@ var graphics = (function(){
 		},
 
 		drawBillet: function(billet){
+			billetLength = billet.length;
+			edgeHighlightColor = billet.properties.highlightColor;
+
 			cncCtx.save();
 			cncCtx.translate(billet.length, Math.ceil(cnc.height/2));
 			cncCtx.fillStyle = billet.properties.color;
 			cncCtx.fillRect(-billet.length, -billet.radius, billet.length, billet.radius*2);
+
+			// initialize edge positions array as per billet size
+			for(var z = -1; z > -billetLength; z -= 1) {
+				edgePositions[z] = billet.radius;
+			}
+			// console.log(edgePositions.join(", "));
 		},
 
 		drawTool: function(pos){
+			// update edge highlight array for current Z position.
+			var index = Math.floor(pos.z);
+			if(index < 0 && (!edgePositions[index] || edgePositions[index] > pos.x)) {
+				edgePositions[index] = pos.x;
+			}
 
 			// Z is horizontal & X is Vertical
 			var posZ = pos.z;
@@ -114,6 +131,27 @@ var graphics = (function(){
 		clear: function() {
 			if(cnc) {
 				cnc.width = cnc.width;
+			}
+		},
+
+		getEdgePositions: function() {
+			return edgePositions;
+		},
+
+		highlightEdges: function() {
+			var currZ;
+			for(var z = -1; z > -billetLength; z -= 1) {
+				// console.log("edgePositions[" + z + "] = " + edgePositions[z]);
+				cncCtx.strokeStyle = edgeHighlightColor;
+
+				if(currZ && edgePositions[z] > currZ) {
+					console.log("draw line at z = " + z);
+					cncCtx.moveTo(z, -edgePositions[z]);
+					cncCtx.lineTo(z, edgePositions[z]);
+					cncCtx.stroke();
+				}
+				currZ = edgePositions[z];
+
 			}
 		}
 	};

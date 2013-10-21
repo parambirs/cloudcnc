@@ -10,7 +10,8 @@ var config = (function(){
 		},
 
 		billetProperties: {
-			color: '#6C87B7'
+			color: '#6C87B7',
+			highlightColor: '#AAC3EE'
 		}
 	}
 })();

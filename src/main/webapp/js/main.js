@@ -270,6 +270,7 @@ function executeProgram (){
 				scrollScrollbar(currentLine);
 
 			} catch (err){
+				graphics.highlightEdges();
 				terminateProgram();
 				return;
 			}
