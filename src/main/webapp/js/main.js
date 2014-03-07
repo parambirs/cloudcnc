@@ -1,6 +1,12 @@
 $(document).ready(function(){ 
 	// $( "#editorDiv").load( "examples/simple.cnc" );
-	$( "#editorDiv").load( "examples/complete.cnc" );
+	var programId = getURLParameter("id")
+	if(programId) {
+		$( "#editorDiv").load( "/cncprograms/" + programId );
+	} else {
+		$( "#editorDiv").load( "examples/complete.cnc" );
+	}
+	
 
 	initScreen();
 
@@ -407,4 +413,18 @@ function initScreen(){
 
 	}
 
+}
+
+function getURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
 }

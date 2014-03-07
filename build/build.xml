@@ -4,6 +4,10 @@
   	<import file="${sdk.dir}/config/user/ant-macros.xml" />
 	
 	<path id="project.classpath">
+		<pathelement path="war/WEB-INF/classes" />
+		<fileset dir="war/WEB-INF/lib">
+      		<include name="**/*.jar" />
+    	</fileset>
 		<fileset dir="${sdk.dir}/lib">
 			<include name="shared/**/*.jar" />
 		</fileset>
@@ -50,6 +54,17 @@
 		<copy todir="war">
 			<fileset dir="../src/main/webapp"/>
 		</copy>
+		<mkdir dir="war/WEB-INF/classes" />
+		<copy todir="war/WEB-INF/classes">
+      		<fileset dir="../src/main/java">
+        		<exclude name="**/*.java" />
+      		</fileset>
+    	</copy>
+    	<javac
+        	srcdir="../src/main/java"
+        	destdir="war/WEB-INF/classes"
+        	classpathref="project.classpath"
+        	debug="on" />
 	</target>
 
 	<target name="compress" depends="compile" description="Compress JS files using YUI Compressor">

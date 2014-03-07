@@ -1,65 +1,133 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Cloud CNC</title>
-		<link rel="shortcut icon" href="favicon.png" />
-		<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-touch-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-touch-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72x72.png">
-		<link rel="apple-touch-icon" href="icons/apple-touch-icon-57x57.png">
-		<link rel='stylesheet' type='text/css' href='styles/main.css'>
-		<script src="js/jquery-1.10.2.js"></script>
-		<script src='js/main.js'></script>
-		<script src='js/gcodes.js'></script>
-		<script src='js/graphics.js'></script>
-		<script src='js/config.js'></script>
-		<script src='js/cncProgram.js'></script>
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<head>
+<title>Cloud CNC</title>
+<link rel="shortcut icon" href="favicon.png" />
+<link rel="apple-touch-icon" sizes="144x144"
+	href="icons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="icons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="icons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-57x57.png">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel='stylesheet' type='text/css' href='styles/main.css'>
+<script src="js/jquery-1.10.2.js"></script>
+<script src='js/main.js'></script>
+<script src='js/gcodes.js'></script>
+<script src='js/graphics.js'></script>
+<script src='js/config.js'></script>
+<script src='js/cncProgram.js'></script>
+<script>
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+		i[r] = i[r] || function() {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date();
+		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', '//www.google-analytics.com/analytics.js',
+			'ga');
 
-			ga('create', 'UA-44578187-1', 'cloudcnc.in');
-			ga('send', 'pageview');
+	ga('create', 'UA-44578187-1', 'cloudcnc.in');
+	ga('send', 'pageview');
+	
+	function showSaveModal() {
+		$.post("/add",
+		  {
+			sourceCode: $('#editorDiv').val()
+		  },
+		  function(data,status){
+		    $('#url').val(document.location.host + document.location.pathname + "?id=" + data.trim());
+		    $('#myModal').modal('show');
+		  });
+		}
+	
+	/* $(document).ready(function() {
+		alert(getURLParameter("id"));
+	}) */
+</script>
+</head>
 
-		</script>
-	</head>
+<body>
+	<!-- Code for facebook button -->
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+				return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=70349459317";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<!-- End code for facebook button -->
 
-	<body>
-		<!-- Code for facebook button -->
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=70349459317";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-		<!-- End code for facebook button -->
+	<div id="toolbar">
+		<div id="product_name">
+			Cloud CNC <span class="product_release_name">&alpha;</span>
+		</div>
+		<div id="menuButtons">
+			<div id="btnStart" class="toolbar_button axnStart"
+				data-status="start">&nbsp;</div>
+			<div id="btnStop" class="toolbar_button" data-status="stop">&nbsp;</div>
 
-		<div id="toolbar">
-			<div id="product_name">Cloud CNC <span class="product_release_name">&alpha;</span></div>
-			<div id="menuButtons">
-				<div id="btnStart" class="toolbar_button axnStart" data-status="start">&nbsp;</div>
-				<div id="btnStop" class="toolbar_button" data-status="stop">&nbsp;</div>
-				
+		</div>
+		<button class="btn btn-primary btn-sm" onclick="showSaveModal()">Share</button>
+		<div id="socialIcons"></div>
+	</div>
+	<div id="editor">
+		<div id="lineNumbers"></div>
+		<textarea id="editorDiv"></textarea>
+	</div>
+	<div id="simulator"></div>
+	<div id="footer">
+		<div id="copyrights" class="AppleFont">Cloud CNC &copy; 2013</div>
+		<div id="email" class="AppleFont">admin@cloudcnc.in</div>
+
+		<div id="speedDiv" class="AppleFont">
+			Tool Speed<input id="speedSlider" type="range" min="1" max="10"
+				value="8" step="1">
+		</div>
+		<div id="fb-like-button" class="fb-like"
+			data-href="https://www.facebook.com/cloudcnc"
+			data-width="The pixel width of the plugin"
+			data-height="The pixel height of the plugin" data-colorscheme="light"
+			data-layout="button_count" data-action="like" data-show-faces="false"
+			data-send="false"></div>
+	</div>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Share</h4>
+				</div>
+					<div class="modal-body">
+						<input class="well form-control" id="url" name="url" onclick="this.select();" type="text"/>
+					</div>
+					<div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
 			</div>
-			<div id="socialIcons"></div>
 		</div>
-		<div id="editor">
-			<div id="lineNumbers"></div>
-			<textarea id="editorDiv"></textarea>
-		</div>
-		<div id="simulator">
-		</div>
-		<div id="footer">
-			<div id="copyrights" class="AppleFont">Cloud CNC &copy; 2013</div>
-			<div id="email" class="AppleFont">admin@cloudcnc.in</div>
+	</div>
 
-			<div id="speedDiv" class="AppleFont">Tool Speed<input id="speedSlider" type="range" min="1" max="10" value="8" step="1" ></div>
-			<div id="fb-like-button" class="fb-like" data-href="https://www.facebook.com/cloudcnc" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="false" data-send="false"></div>
-		</div>
-		<img src="tools/tool.bmp" style="display: none" />
-	</body>
+	<img src="tools/tool.bmp" style="display: none" />
+</body>
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </html>
