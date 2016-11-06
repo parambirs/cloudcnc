@@ -8,4 +8,5 @@ the program at particular source lines.
 
 Visit [https://cnc-lathe-simulator.appspot.com/](https://cnc-lathe-simulator.appspot.com/) and hit the Start button to see the simulation.
 
+Click the following image to view a screencast showing a simulation
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/BTF41bNq6_4/0.jpg)](https://www.youtube.com/watch?v=BTF41bNq6_4)
