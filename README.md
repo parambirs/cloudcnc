@@ -1,4 +1,4 @@
-# cloudcnc
+# CloudCNC
 
 Cloud CNC is an online CNC lathe simulator. It lets you edit and simulate CNC lathe code
 online. This is an HTML5 application with no server side interaction. The code is parsed in
